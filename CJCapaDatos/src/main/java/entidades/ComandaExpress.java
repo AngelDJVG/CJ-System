@@ -24,7 +24,7 @@ public class ComandaExpress extends Comanda implements Serializable {
     }
 
     public ComandaExpress(Long id, Calendar fecha) {
-        super(id, fecha);
+        super(id, fecha, false);
     }
 
     

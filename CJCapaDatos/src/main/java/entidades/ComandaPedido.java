@@ -23,7 +23,7 @@ public class ComandaPedido extends Comanda implements Serializable{
     }
 
     public ComandaPedido(Long id, Calendar fecha) {
-        super(id, fecha);
+        super(id, fecha, false);
     }
 
     @Override

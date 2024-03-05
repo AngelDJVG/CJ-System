@@ -28,8 +28,8 @@ public class ComandaMesa extends Comanda implements Serializable {
     }
 
     public ComandaMesa(Long id, Calendar fecha, Mesa mesa) {
-        super(id, fecha);
-        
+        super(id, fecha, true);
+        this.mesa = mesa;
     }
 
     public Mesa getMesa() {

@@ -42,6 +42,9 @@ public class Comanda implements Serializable {
     @OneToOne(mappedBy = "comanda")
     private Movimiento movimiento;
     
+    @Column(name = "estadoAbierta", nullable = false)
+    private boolean estadoAbierta;
+    
     @ManyToMany
     @JoinTable(
         name = "comanda_producto",
@@ -53,9 +56,10 @@ public class Comanda implements Serializable {
     public Comanda() {
     }
 
-    public Comanda(Long id, Calendar fecha) {
+    public Comanda(Long id, Calendar fecha, boolean estadoAbierta) {
         this.id = id;
         this.fecha = fecha;
+        this.estadoAbierta = estadoAbierta;
     }
 
     public Long getId() {
@@ -88,6 +92,14 @@ public class Comanda implements Serializable {
 
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
+    }
+
+    public boolean isEstadoAbierta() {
+        return estadoAbierta;
+    }
+
+    public void setEstadoAbierta(boolean estadoAbierta) {
+        this.estadoAbierta = estadoAbierta;
     }
 
     @Override

@@ -30,8 +30,9 @@ public class Movimiento implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar fecha;
 
-    @Column(name = "tipo", nullable = false, length = 50)
-    private String tipo;
+    @Column(name = "tipo", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoMovimiento tipo;
     
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_comanda", nullable = true)
@@ -44,7 +45,7 @@ public class Movimiento implements Serializable {
     public Movimiento() {
     }
 
-    public Movimiento(Long id, Calendar fecha, String tipo) {
+    public Movimiento(Long id, Calendar fecha, TipoMovimiento tipo) {
         this.id = id;
         this.fecha = fecha;
         this.tipo = tipo;
@@ -66,11 +67,11 @@ public class Movimiento implements Serializable {
         this.fecha = fecha;
     }
 
-    public String getTipo() {
+    public TipoMovimiento getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoMovimiento tipo) {
         this.tipo = tipo;
     }
 

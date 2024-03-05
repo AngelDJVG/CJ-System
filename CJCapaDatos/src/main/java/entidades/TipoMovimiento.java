@@ -8,6 +8,6 @@ package entidades;
  *
  * @author JGlam
  */
-public enum TipoComida {
-    BEBIDA, COMIDA
+public enum TipoMovimiento {
+    ABONO, CARGO, CONTADO
 }
