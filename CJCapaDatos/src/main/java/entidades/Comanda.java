@@ -6,18 +6,25 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "comandas")
@@ -31,7 +38,17 @@ public class Comanda implements Serializable {
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.DATE)
     private Calendar fecha;
-
+    
+    @OneToOne(mappedBy = "comanda")
+    private Movimiento movimiento;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "comanda_producto",
+        joinColumns = @JoinColumn(name = "id_comanda"),
+        inverseJoinColumns = @JoinColumn(name = "id_producto")
+    )
+    private List<Producto> productos;
     
     public Comanda() {
     }
@@ -47,6 +64,30 @@ public class Comanda implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Calendar getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Calendar fecha) {
+        this.fecha = fecha;
+    }
+
+    public Movimiento getMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(Movimiento movimiento) {
+        this.movimiento = movimiento;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 
     @Override

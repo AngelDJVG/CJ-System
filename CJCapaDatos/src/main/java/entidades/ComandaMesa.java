@@ -6,19 +6,23 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "comandas_mesas")
 @PrimaryKeyJoinColumn(name = "id_comanda_mesa")
 public class ComandaMesa extends Comanda implements Serializable {
-
+    
+    @ManyToOne
+    private Mesa mesa;
 
     public ComandaMesa() {
     }
@@ -27,6 +31,15 @@ public class ComandaMesa extends Comanda implements Serializable {
         super(id, fecha);
         
     }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
+    
 
     
 

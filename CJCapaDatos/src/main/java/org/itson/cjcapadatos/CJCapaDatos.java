@@ -9,7 +9,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 public class CJCapaDatos {
 
@@ -19,7 +19,6 @@ public class CJCapaDatos {
         EntityManager entityManager = em.createEntityManager();
         entityManager.getTransaction().begin();
         Cliente cliente = new Cliente("0000000000", "Pablo");
-        
         
         entityManager.persist(cliente);
         entityManager.getTransaction().commit();

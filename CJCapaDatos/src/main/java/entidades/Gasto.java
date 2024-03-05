@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "gastos")

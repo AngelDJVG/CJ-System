@@ -2,15 +2,17 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "mesas")
@@ -19,7 +21,10 @@ public class Mesa implements Serializable {
     @Id
     @Column(name = "numero", nullable = false)
     private Long numero;
-
+    
+    @OneToMany(mappedBy = "mesa")
+    private List<ComandaMesa> comandas;
+    
     public Mesa() {
     }
 
@@ -35,6 +40,7 @@ public class Mesa implements Serializable {
         this.numero = numero;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

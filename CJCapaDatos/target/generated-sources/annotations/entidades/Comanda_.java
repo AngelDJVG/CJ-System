@@ -1,17 +1,20 @@
 package entidades;
 
 import entidades.Movimiento;
+import entidades.Producto;
+import java.util.Calendar;
 import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 @Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-03-04T19:53:50", comments="EclipseLink-2.7.10.v20211216-rNA")
-@StaticMetamodel(Cliente.class)
-public class Cliente_ { 
+@StaticMetamodel(Comanda.class)
+public class Comanda_ { 
 
-    public static volatile ListAttribute<Cliente, Movimiento> movimientos;
-    public static volatile SingularAttribute<Cliente, String> telefono;
-    public static volatile SingularAttribute<Cliente, String> nombre;
+    public static volatile SingularAttribute<Comanda, Calendar> fecha;
+    public static volatile SingularAttribute<Comanda, Movimiento> movimiento;
+    public static volatile SingularAttribute<Comanda, Long> id;
+    public static volatile ListAttribute<Comanda, Producto> productos;
 
 }

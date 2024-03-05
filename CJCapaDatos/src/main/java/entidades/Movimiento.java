@@ -3,16 +3,20 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "movimientos")
@@ -28,7 +32,15 @@ public class Movimiento implements Serializable {
 
     @Column(name = "tipo", nullable = false, length = 50)
     private String tipo;
-
+    
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_comanda", nullable = true)
+    private Comanda comanda;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = true)
+    private Cliente cliente;
+    
     public Movimiento() {
     }
 
@@ -45,6 +57,39 @@ public class Movimiento implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Calendar getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Calendar fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public Comanda getComanda() {
+        return comanda;
+    }
+
+    public void setComanda(Comanda comanda) {
+        this.comanda = comanda;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
 
     @Override
     public int hashCode() {

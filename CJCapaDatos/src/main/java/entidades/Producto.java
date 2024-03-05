@@ -4,12 +4,14 @@ package entidades;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "productos")
@@ -19,8 +21,9 @@ public class Producto implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "tipo", nullable = false, length = 50)
-    private String tipo;
+    @Column(name = "tipo", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoComida tipo;
 
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
@@ -31,7 +34,7 @@ public class Producto implements Serializable {
     public Producto() {
     }
 
-    public Producto(Long id, String tipo, String nombre, double precio) {
+    public Producto(Long id, TipoComida tipo, String nombre, double precio) {
         this.id = id;
         this.tipo = tipo;
         this.nombre = nombre;
@@ -46,13 +49,15 @@ public class Producto implements Serializable {
         this.id = id;
     }
 
-    public String getTipo() {
+    public TipoComida getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoComida tipo) {
         this.tipo = tipo;
     }
+
+   
 
     public String getNombre() {
         return nombre;

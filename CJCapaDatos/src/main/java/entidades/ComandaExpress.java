@@ -6,13 +6,14 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "comandas_express")

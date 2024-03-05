@@ -2,14 +2,16 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  *
- * @author Ángel ñ
+ * @author JGlam
  */
 @Entity
 @Table(name = "clientes")
@@ -21,7 +23,10 @@ public class Cliente implements Serializable {
 
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
-
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<Movimiento> movimientos;       
+    
     public Cliente() {
     }
     
@@ -44,6 +49,14 @@ public class Cliente implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<Movimiento> getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(List<Movimiento> movimientos) {
+        this.movimientos = movimientos;
     }
 
     @Override
