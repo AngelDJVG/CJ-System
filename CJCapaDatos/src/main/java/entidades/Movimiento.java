@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +27,8 @@ import javax.persistence.TemporalType;
 public class Movimiento implements Serializable {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "fecha", nullable = false)
@@ -50,8 +53,7 @@ public class Movimiento implements Serializable {
     public Movimiento() {
     }
 
-    public Movimiento(Long id, Calendar fecha, TipoMovimiento tipo, double cantidad) {
-        this.id = id;
+    public Movimiento(Calendar fecha, TipoMovimiento tipo, double cantidad) {
         this.fecha = fecha;
         this.tipo = tipo;
         this.cantidad = cantidad;

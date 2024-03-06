@@ -2,13 +2,15 @@
 
 package org.itson.cjcapadatos;
 
-import entidades.Cliente;
-import entidades.Movimiento;
-import entidades.TipoMovimiento;
+import dao.FachadaDAO;
+import entidades.Comanda;
+import entidades.ComandaPedido;
+import entidades.ComandaProducto;
+import entidades.Producto;
+import entidades.TipoComida;
+import java.util.ArrayList;
 import java.util.Calendar;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.util.List;
 
 /**
  *
@@ -16,14 +18,15 @@ import javax.persistence.Persistence;
  */
 public class CJCapaDatos {
 
-    //CREAR UNA BASE DE DATOS LLAMADA "CARNITASJACARANDAS" EN MYSQL
     public static void main(String[] args) {
-        EntityManagerFactory em = Persistence.createEntityManagerFactory("org.itson.carnitasjacarandas");
-        EntityManager entityManager = em.createEntityManager();
-        entityManager.getTransaction().begin();
-        Movimiento movimiento = new Movimiento(1L, Calendar.getInstance(), TipoMovimiento.CARGO, 1000);
-        
-        entityManager.persist(movimiento);
-        entityManager.getTransaction().commit();
+        FachadaDAO fachadaDAO = new FachadaDAO();
+        Comanda comanda = new ComandaPedido(Calendar.getInstance(), "Villa Itson 345");
+        List<ComandaProducto> comandaProductos = new ArrayList<>();
+        Producto producto = new Producto(TipoComida.BEBIDA, "Coca Cola 600", 20);
+        ComandaProducto comandaProducto = new ComandaProducto(comanda, producto, 3);
+        fachadaDAO.registrarProducto(producto);
+        comandaProductos.add(comandaProducto);
+        comanda.setComandaProductos(comandaProductos);
+        fachadaDAO.registrarComanda(comanda);
     }
 }

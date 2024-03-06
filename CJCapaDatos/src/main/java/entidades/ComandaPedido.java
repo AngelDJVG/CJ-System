@@ -1,4 +1,3 @@
-
 package entidades;
 
 import java.io.Serializable;
@@ -16,14 +15,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "comandas_pedidos")
 @PrimaryKeyJoinColumn(name = "id_comanda_pedido")
-public class ComandaPedido extends Comanda implements Serializable{
- @Column(name = "direccion", nullable = false, length = 100)
- private String direccion;
+public class ComandaPedido extends Comanda implements Serializable {
+
+    @Column(name = "direccion", nullable = false, length = 100)
+    private String direccion;
+
     public ComandaPedido() {
     }
 
-    public ComandaPedido(Long id, Calendar fecha) {
-        super(id, fecha, false);
+    public ComandaPedido(Calendar fecha, String direccion) {
+        super(fecha, false);
+        this.direccion = direccion;
     }
 
     @Override

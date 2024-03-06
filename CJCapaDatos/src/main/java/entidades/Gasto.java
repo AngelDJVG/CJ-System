@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,7 +21,8 @@ import javax.persistence.TemporalType;
 public class Gasto implements Serializable {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "fecha", nullable = false)
@@ -35,8 +38,7 @@ public class Gasto implements Serializable {
     public Gasto() {
     }
 
-    public Gasto(Long id, Calendar fecha, double total, String descripcion) {
-        this.id = id;
+    public Gasto(Calendar fecha, double total, String descripcion) {
         this.fecha = fecha;
         this.total = total;
         this.descripcion = descripcion;

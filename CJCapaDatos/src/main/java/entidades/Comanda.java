@@ -5,18 +5,23 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -32,7 +37,8 @@ import javax.persistence.TemporalType;
 public class Comanda implements Serializable {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "fecha", nullable = false)
@@ -45,6 +51,7 @@ public class Comanda implements Serializable {
     @Column(name = "estadoAbierta", nullable = false)
     private boolean estadoAbierta;
     
+    /*
     @ManyToMany
     @JoinTable(
         name = "comanda_producto",
@@ -52,12 +59,15 @@ public class Comanda implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "id_producto")
     )
     private List<Producto> productos;
+    */
+    
+    @OneToMany(mappedBy = "comanda", cascade = CascadeType.ALL)
+    private List<ComandaProducto> comandaProductos = new ArrayList<>();
     
     public Comanda() {
     }
 
-    public Comanda(Long id, Calendar fecha, boolean estadoAbierta) {
-        this.id = id;
+    public Comanda(Calendar fecha, boolean estadoAbierta) {
         this.fecha = fecha;
         this.estadoAbierta = estadoAbierta;
     }
@@ -86,12 +96,22 @@ public class Comanda implements Serializable {
         this.movimiento = movimiento;
     }
 
+    /*
     public List<Producto> getProductos() {
         return productos;
     }
 
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
+    }
+    */
+
+    public List<ComandaProducto> getComandaProductos() {
+        return comandaProductos;
+    }
+
+    public void setComandaProductos(List<ComandaProducto> comandaProductos) {
+        this.comandaProductos = comandaProductos;
     }
 
     public boolean isEstadoAbierta() {
