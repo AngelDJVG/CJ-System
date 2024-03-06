@@ -22,7 +22,7 @@ public class ProductosDAO {
     public Producto registrarProducto(Producto producto) {
         if (producto != null) {
             if (producto.getId() != null) {
-                if (entityManager.find(Producto.class, producto.getId()) != null) {
+                if (this.consultarProducto(producto.getId()) != null) {
                     return null;
                 }
             }
@@ -33,5 +33,27 @@ public class ProductosDAO {
         }
         return null;
     }
+    
+    public Producto consultarProducto(Long idProducto){
+        if(idProducto != null){
+            Producto productoBuscar = entityManager.find(Producto.class, idProducto);
+            if(productoBuscar != null){
+                return productoBuscar;
+            }
+        }
+        return null;
+    }
 
+    public Producto modificarProducto(Producto producto) {
+        if (producto != null) {
+            if (producto.getId() != null) {
+                entityManager.getTransaction().begin();
+                entityManager.merge(producto);
+                entityManager.getTransaction().commit();
+                return producto;
+            }
+        }
+        return null;
+    }
+    
 }

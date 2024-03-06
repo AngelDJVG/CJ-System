@@ -20,6 +20,7 @@ public class CJCapaDatos {
 
     public static void main(String[] args) {
         FachadaDAO fachadaDAO = new FachadaDAO();
+        /*
         Comanda comanda = new ComandaPedido(Calendar.getInstance(), "Villa Itson 345");
         List<ComandaProducto> comandaProductos = new ArrayList<>();
         Producto producto = new Producto(TipoComida.BEBIDA, "Coca Cola 600", 20);
@@ -28,5 +29,9 @@ public class CJCapaDatos {
         comandaProductos.add(comandaProducto);
         comanda.setComandaProductos(comandaProductos);
         fachadaDAO.registrarComanda(comanda);
+        */
+        Producto producto = new Producto(TipoComida.BEBIDA, "Coca Cola Litro", 25);
+        producto.setId(6L);
+        fachadaDAO.modificarProducto(producto);
     }
 }

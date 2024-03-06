@@ -31,7 +31,23 @@ public class FachadaDAO {
         return comandasDAO.registrarComanda(comanda);
     }
     
+    public Comanda consultarComanda(Long idComanda) {
+        return comandasDAO.consultarComanda(idComanda);
+    }
+    
+    public Comanda modificarComanda(Comanda comanda) {
+        return comandasDAO.modificarComanda(comanda);
+    }
+    
     public Producto registrarProducto(Producto producto) {
         return productosDAO.registrarProducto(producto);
+    }
+    
+    public Producto consultarProducto(Long idProducto){
+        return productosDAO.consultarProducto(idProducto);
+    }
+    
+    public Producto modificarProducto(Producto producto) {
+        return productosDAO.modificarProducto(producto);
     }
 }
