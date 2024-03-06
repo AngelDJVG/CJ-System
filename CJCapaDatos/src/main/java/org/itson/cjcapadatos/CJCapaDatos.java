@@ -4,6 +4,8 @@ package org.itson.cjcapadatos;
 
 import dao.*;
 import entidades.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -34,5 +36,8 @@ public class CJCapaDatos {
         }else{
             System.out.println("no se eliminó el producto");
         }
+        Calendar fecha = new GregorianCalendar();
+        Comanda comanda = new ComandaExpress(fecha);
+        fachadaDAO.registrarComanda(comanda);
     }
 }
