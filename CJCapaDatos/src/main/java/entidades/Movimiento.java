@@ -6,6 +6,8 @@ import java.util.Calendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,6 +31,9 @@ public class Movimiento implements Serializable {
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.DATE)
     private Calendar fecha;
+    
+    @Column(name = "cantidad", nullable = false)
+    private double cantidad;
 
     @Column(name = "tipo", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -45,10 +50,11 @@ public class Movimiento implements Serializable {
     public Movimiento() {
     }
 
-    public Movimiento(Long id, Calendar fecha, TipoMovimiento tipo) {
+    public Movimiento(Long id, Calendar fecha, TipoMovimiento tipo, double cantidad) {
         this.id = id;
         this.fecha = fecha;
         this.tipo = tipo;
+        this.cantidad = cantidad;
     }
 
     public Long getId() {
@@ -90,8 +96,15 @@ public class Movimiento implements Serializable {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
 
+    public double getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

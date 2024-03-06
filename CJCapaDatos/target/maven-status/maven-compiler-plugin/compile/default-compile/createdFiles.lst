@@ -1,6 +1,7 @@
 entidades\Mesa_.class
 entidades\Producto_.class
 entidades\Comanda_.class
+entidades\TipoMovimiento.class
 entidades\TipoComida.class
 entidades\Cliente_.class
 entidades\Comanda.class

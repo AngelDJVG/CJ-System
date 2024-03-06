@@ -3,6 +3,9 @@
 package org.itson.cjcapadatos;
 
 import entidades.Cliente;
+import entidades.Movimiento;
+import entidades.TipoMovimiento;
+import java.util.Calendar;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,9 +21,9 @@ public class CJCapaDatos {
         EntityManagerFactory em = Persistence.createEntityManagerFactory("org.itson.carnitasjacarandas");
         EntityManager entityManager = em.createEntityManager();
         entityManager.getTransaction().begin();
-        Cliente cliente = new Cliente("0000000000", "Pablo");
+        Movimiento movimiento = new Movimiento(1L, Calendar.getInstance(), TipoMovimiento.CARGO, 1000);
         
-        entityManager.persist(cliente);
+        entityManager.persist(movimiento);
         entityManager.getTransaction().commit();
     }
 }
