@@ -6,10 +6,11 @@ package dao;
 
 import entidades.Producto;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 
 /**
  *
- * @author mario
+ * @author JGlam
  */
 public class ProductosDAO {
 
@@ -56,4 +57,15 @@ public class ProductosDAO {
         return null;
     }
     
+    public Producto eliminarProducto(Producto producto) {
+        if (producto != null) {
+            if (producto.getId() != null) {
+                entityManager.getTransaction().begin();
+                entityManager.remove(producto);
+                entityManager.getTransaction().commit();
+                return producto;
+            }
+        }
+        return null;
+    }
 }

@@ -39,6 +39,10 @@ public class FachadaDAO {
         return comandasDAO.modificarComanda(comanda);
     }
     
+    public Comanda eliminarComanda(Comanda comanda){
+        return comandasDAO.eliminarComanda(comanda);
+    }
+    
     public Producto registrarProducto(Producto producto) {
         return productosDAO.registrarProducto(producto);
     }
@@ -49,5 +53,9 @@ public class FachadaDAO {
     
     public Producto modificarProducto(Producto producto) {
         return productosDAO.modificarProducto(producto);
+    }
+    
+    public Producto eliminarProducto(Producto producto){
+        return productosDAO.eliminarProducto(producto);
     }
 }

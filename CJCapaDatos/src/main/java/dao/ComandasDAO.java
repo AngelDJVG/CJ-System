@@ -1,15 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package dao;
 
 import entidades.Comanda;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 
 /**
  *
- * @author mario
+ * @author JGlam
  */
 public class ComandasDAO {
 
@@ -56,4 +54,16 @@ public class ComandasDAO {
         return null;
     }
 
+    public Comanda eliminarComanda(Comanda comanda) {
+        if (comanda != null) {
+            if (comanda.getId() != null) {
+                entityManager.getTransaction().begin();
+                entityManager.remove(comanda);
+                entityManager.getTransaction().commit();
+                return comanda;
+            }
+        }
+        return null;
+    }
+    
 }

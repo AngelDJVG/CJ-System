@@ -2,15 +2,8 @@
 
 package org.itson.cjcapadatos;
 
-import dao.FachadaDAO;
-import entidades.Comanda;
-import entidades.ComandaPedido;
-import entidades.ComandaProducto;
-import entidades.Producto;
-import entidades.TipoComida;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import dao.*;
+import entidades.*;
 
 /**
  *
@@ -31,7 +24,15 @@ public class CJCapaDatos {
         fachadaDAO.registrarComanda(comanda);
         */
         Producto producto = new Producto(TipoComida.BEBIDA, "Coca Cola Litro", 25);
-        producto.setId(6L);
-        fachadaDAO.modificarProducto(producto);
+        
+//        fachadaDAO.registrarProducto(producto);
+
+        Producto productoBuscado = fachadaDAO.consultarProducto(1L);
+        Producto productoEliminado = fachadaDAO.eliminarProducto(productoBuscado);
+        if(productoEliminado != null){
+            System.out.println("se ha eliminado correctamente el producto");
+        }else{
+            System.out.println("no se eliminó el producto");
+        }
     }
 }
