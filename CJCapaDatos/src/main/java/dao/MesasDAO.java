@@ -4,7 +4,9 @@
  */
 package dao;
 
+import entidades.Comanda;
 import entidades.Mesa;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -63,5 +65,10 @@ public class MesasDAO {
             }
         }
         return null;
+    }
+ 
+    public List<Mesa> consultarMesas(){
+        List<Mesa> mesas = entityManager.createQuery("SELECT a FROM Mesa a",Mesa.class).getResultList();
+        return mesas;
     }
 }

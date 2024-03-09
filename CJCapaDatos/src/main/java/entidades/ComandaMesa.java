@@ -65,7 +65,7 @@ public class ComandaMesa extends Comanda implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.ComandaMesa[ id=" + this.getId() + " ]";
+        return "entidades.ComandaMesa[ id=" + this.getId() + " ] " +this.isEstadoAbierta();
     }
     
 }

@@ -144,7 +144,9 @@ public class Comanda implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.Comanda[ id=" + id + " ]";
+        return "Comanda{" + "id=" + id + ", fecha=" + fecha + ", movimiento=" + movimiento + ", estadoAbierta=" + estadoAbierta + ", comandaProductos=" + comandaProductos + '}';
     }
+
+    
 
 }

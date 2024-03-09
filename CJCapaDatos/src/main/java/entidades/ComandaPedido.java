@@ -50,7 +50,7 @@ public class ComandaPedido extends Comanda implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.ComandaPedido[ id=" + this.getId() + " ]";
+        return "entidades.ComandaPedido[ id=" + this.getId() + " ] "+this.isEstadoAbierta();
     }
 
 }

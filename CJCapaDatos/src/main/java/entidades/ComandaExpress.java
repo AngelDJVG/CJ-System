@@ -27,8 +27,6 @@ public class ComandaExpress extends Comanda implements Serializable {
         super(fecha, false);
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -51,7 +49,7 @@ public class ComandaExpress extends Comanda implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.ComandaExpress[ id=" + this.getId() + " ]";
+        return "entidades.ComandaExpress[ id=" + this.getId() + " ] + "+this.isEstadoAbierta();
     }
     
 }

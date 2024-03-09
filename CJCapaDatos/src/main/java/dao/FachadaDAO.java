@@ -7,6 +7,7 @@ package dao;
 import entidades.Comanda;
 import entidades.Mesa;
 import entidades.Producto;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
@@ -75,5 +76,29 @@ public class FachadaDAO {
 
     public Mesa eliminarMesa(Mesa mesa) {
         return mesasDAO.eliminarMesa(mesa);
+    }
+    public List<Comanda> consultarComandas(){
+        return comandasDAO.consultarComandas();
+    }
+    public List<Comanda> consultarComandasExpress(){
+        return comandasDAO.consultarComandasExpress();
+    }
+    public List<Comanda> consultarComandasMesa(){
+        return comandasDAO.consultarComandasMesa();
+    }
+    public List<Comanda> consultarComandasPedido(){
+        return comandasDAO.consultarComandasPedido();
+    }
+    public List<Comanda> consultarComandasCerradas(){
+        return comandasDAO.consultarComandasCerradas();
+    }
+    public List<Mesa> consultarMesas(){
+        return mesasDAO.consultarMesas();
+    }
+    public List<Producto> consultarProductosAlimentos(){
+        return productosDAO.consultarProductosAlimentos();
+    }
+    public List<Producto> consultarProductosBebidas(){
+        return productosDAO.consultarProductosBebidas();
     }
 }

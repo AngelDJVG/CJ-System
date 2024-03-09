@@ -2,6 +2,7 @@
 package dao;
 
 import entidades.Comanda;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
@@ -65,5 +66,29 @@ public class ComandasDAO {
         }
         return null;
     }
+    public List<Comanda> consultarComandas(){
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a",Comanda.class).getResultList();
+        return comandas;
+    }
+   
+    public List<Comanda> consultarComandasExpress(){
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaExpress a",Comanda.class).getResultList();
+        return comandas;
+    }
+    
+    public List<Comanda> consultarComandasMesa(){
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaMesa a",Comanda.class).getResultList();
+        return comandas;
+    }
+     public List<Comanda> consultarComandasPedido(){
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaPedido a",Comanda.class).getResultList();
+        return comandas;
+    }
+    public List<Comanda> consultarComandasCerradas(){
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaPedido a WHERE a.estadoAbierta=true",Comanda.class).getResultList();
+        return comandas;
+
+    }
+     
     
 }

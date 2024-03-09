@@ -35,16 +35,19 @@ public class ComandaProducto implements Serializable {
 
     @Column(name = "total")
     private Double total;
-
+    @Column(name="detalles")
+    private String detalles;
+    
     public ComandaProducto() {
     }
 
-    public ComandaProducto(Comanda comanda, Producto producto, Integer cantidad) {
+    public ComandaProducto(Comanda comanda, Producto producto, Integer cantidad,String detalles) {
         this.comanda = comanda;
         this.producto = producto;
         this.precioVenta = producto.getPrecio();
         this.cantidad = cantidad;
         this.total = this.precioVenta * this.cantidad;
+        this.detalles=detalles;
     }
 
     public Long getId() {
@@ -100,6 +103,14 @@ public class ComandaProducto implements Serializable {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public String getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(String detalles) {
+        this.detalles = detalles;
     }
 
     

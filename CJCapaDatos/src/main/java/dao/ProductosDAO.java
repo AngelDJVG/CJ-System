@@ -5,8 +5,11 @@
 package dao;
 
 import entidades.Producto;
+import entidades.TipoComida;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -67,5 +70,15 @@ public class ProductosDAO {
             }
         }
         return null;
+    }
+    public List<Producto> consultarProductosAlimentos(){
+        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo",Producto.class);
+        productosQuery.setParameter("tipo", TipoComida.COMIDA);
+        return productosQuery.getResultList();
+    }
+    public List<Producto> consultarProductosBebidas(){
+         TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo",Producto.class);
+        productosQuery.setParameter("tipo", TipoComida.BEBIDA);
+        return productosQuery.getResultList();
     }
 }
