@@ -46,7 +46,14 @@ public class ObjetoNegocio implements INegocios{
     public Comanda crearComanda(Comanda comanda, List<ComandaProducto> comandaProductos) {
         return controlComanda.crearComanda(comanda, comandaProductos);
     }
-
+     @Override
+    public Comanda modificarComanda(Comanda comanda) {
+         return controlComanda.modificarComanda(comanda);
+    }
+     @Override
+    public Comanda eliminarComanda(Comanda comanda) {
+        return controlComanda.eliminarComanda(comanda);
+    }
     @Override
     public List<Producto> consultarProductosAlimentos() {
         return controlProducto.consultarProductosAlimentos();
@@ -56,6 +63,10 @@ public class ObjetoNegocio implements INegocios{
     public List<Producto> consultarProductosBebidas() {
         return controlProducto.consultarProductosBebidas();
     }
+
+   
+
+   
     
     
 }

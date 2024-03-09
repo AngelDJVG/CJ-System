@@ -39,8 +39,13 @@ public class ControlComanda {
     }
     public Comanda crearComanda(Comanda comanda, List<ComandaProducto> comandaProductos){
         comanda.setComandaProductos(comandaProductos);
-        
         return fachadaDAO.registrarComanda(comanda);
+    }
+    public Comanda modificarComanda(Comanda comanda){
+        return fachadaDAO.modificarComanda(comanda);
+    }
+    public Comanda eliminarComanda(Comanda comanda){
+         return fachadaDAO.eliminarComanda(comanda);
     }
     
 }
