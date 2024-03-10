@@ -4,6 +4,8 @@
  */
 package view;
 
+import control.Mediador;
+
 /**
  *
  * @author Ángel Valenzuela
@@ -162,7 +164,7 @@ public class FrmComandas extends javax.swing.JFrame {
 
     private void btnCrearComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearComandaActionPerformed
         this.setVisible(false);
-        new FrmRegistroComanda().setVisible(true);
+        Mediador.abrirFrmRegistroComanda();
         
     }//GEN-LAST:event_btnCrearComandaActionPerformed
 

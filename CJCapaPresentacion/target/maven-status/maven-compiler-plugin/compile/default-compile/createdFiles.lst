@@ -1,10 +1,14 @@
+control\Control.class
+view\FrmRegistroComanda$3.class
 view\JDLElegirProducto$1.class
 view\JDLElegirProducto$3.class
 com\mycompany\cjcapapresentacion\CJCapaPresentacion.class
 view\JDLElegirProducto$2.class
 view\JDLElegirProducto.class
 view\JDLElegirProducto$4.class
+control\Mediador.class
 view\FrmRegistroComanda$1.class
+view\JDLElegirProducto$5.class
 view\FrmRegistroComanda$2.class
 view\FrmRegistroComanda.class
 view\PnlTipoComandas.class

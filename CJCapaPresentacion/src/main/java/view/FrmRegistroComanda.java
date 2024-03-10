@@ -4,12 +4,20 @@
  */
 package view;
 
+import control.Control;
+import entidades.Comanda;
+import entidades.ComandaExpress;
+import entidades.ComandaMesa;
+import entidades.ComandaPedido;
+import entidades.ComandaProducto;
+import entidades.Mesa;
 import enums.TiposComanda;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComboBox;
@@ -24,11 +32,15 @@ import javax.swing.border.Border;
  */
 public class FrmRegistroComanda extends javax.swing.JFrame {
 
+    private Control controlAplicacion;
+
     /**
      * Creates new form FrmRegistroComanda
      */
     public FrmRegistroComanda() {
         initComponents();
+        controlAplicacion = new Control();
+        controlAplicacion.establecerVistaTotal(lblDinero);
         actualizarPanel(0);
         agregarPaneles();
         System.out.println(pnlPedidos.countComponents());
@@ -52,7 +64,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         lblTipo = new javax.swing.JLabel();
         cbxTipo = new javax.swing.JComboBox<>();
         pnlFormularioComanda = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         pnlDetalles = new javax.swing.JPanel();
         pnlFondoAgregarProducto = new javax.swing.JPanel();
@@ -65,7 +77,6 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
@@ -99,7 +110,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         pnlCentralComanda.setMaximumSize(new java.awt.Dimension(710, 400));
         pnlCentralComanda.setMinimumSize(new java.awt.Dimension(710, 400));
         pnlCentralComanda.setPreferredSize(new java.awt.Dimension(710, 400));
-        pnlCentralComanda.setLayout(new java.awt.GridLayout());
+        pnlCentralComanda.setLayout(new java.awt.GridLayout(1, 0));
 
         pnlFormulario.setBackground(new java.awt.Color(255, 255, 255));
         pnlFormulario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(203, 95, 29), 3));
@@ -114,7 +125,6 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         pnlFormulario.add(lblTipo, gridBagConstraints);
 
-        cbxTipo.setBackground(new java.awt.Color(255, 255, 255));
         cbxTipo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         cbxTipo.setForeground(new java.awt.Color(203, 95, 29));
         cbxTipo.setMaximumRowCount(3);
@@ -148,16 +158,21 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(11, 0, 0, 0);
         pnlFormulario.add(pnlFormularioComanda, gridBagConstraints);
 
-        jButton1.setBackground(new java.awt.Color(102, 204, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Registrar");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrar.setBackground(new java.awt.Color(102, 204, 0));
+        btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        pnlFormulario.add(jButton1, gridBagConstraints);
+        pnlFormulario.add(btnRegistrar, gridBagConstraints);
 
         jSeparator1.setBackground(new java.awt.Color(203, 95, 29));
         jSeparator1.setForeground(new java.awt.Color(203, 95, 29));
@@ -200,7 +215,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
 
         lblDinero.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblDinero.setForeground(new java.awt.Color(102, 204, 0));
-        lblDinero.setText("Total: $xxxxxxxxxx.xx");
+        lblDinero.setText("Total: $0.00");
         pnlFondoAgregarProducto.add(lblDinero);
 
         pnlDetalles.add(pnlFondoAgregarProducto);
@@ -238,19 +253,23 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxTipoItemStateChanged
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-        JDLElegirProducto elegirProducto = new JDLElegirProducto(this, true);
+        JDLElegirProducto elegirProducto = new JDLElegirProducto(this, true, controlAplicacion);
         elegirProducto.setVisible(true);
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
-    public void actualizarPanel(int tipoComanda) {
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        controlAplicacion.registrarComanda(cbxTipo.getSelectedIndex());
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    public void actualizarPanel(int tipoComanda) {
+       
         pnlFormularioComanda.removeAll();
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
-        
+
         switch (tipoComanda) {
             case TiposComanda.PEDIDO -> {
                 lblTitulo.setText("Registro de comanda - Pedido");
@@ -275,7 +294,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
 
                 JLabel lblDireccion = new JLabel("Dirección");
                 pnlFormularioComanda.add(lblDireccion, gbc);
-
+                
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 3;
@@ -287,6 +306,8 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
                 txtDireccion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(203, 95, 29), 2, true));
                 pnlFormularioComanda.add(txtDireccion, gbc);
 
+                controlAplicacion.asignarVistaDireccion(txtDireccion);
+                
                 lblNombreCliente.setFont(new java.awt.Font("Segoe UI", 1, 20));
                 lblNombreCliente.setForeground(new java.awt.Color(203, 95, 29));
                 lblDireccion.setFont(new java.awt.Font("Segoe UI", 1, 20));
@@ -300,13 +321,15 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
 
                 gbc.gridy++;
 
-                JComboBox<String> cbxMesa = new JComboBox<>();
+                JComboBox<Mesa> cbxMesa = new JComboBox<>();
                 pnlFormularioComanda.add(cbxMesa, gbc);
                 cbxMesa.setBackground(new java.awt.Color(255, 255, 255));
                 cbxMesa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
                 cbxMesa.setForeground(new java.awt.Color(203, 95, 29));
                 cbxMesa.setMaximumRowCount(4);
-                cbxMesa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Mesa 1", "Mesa 2", "Mesa 3", "Mesa 4"}));
+
+                controlAplicacion.cargarMesas(cbxMesa);
+
                 cbxMesa.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(203, 95, 29), 2, true));
                 cbxMesa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                 cbxMesa.setMaximumSize(new java.awt.Dimension(250, 50));
@@ -328,8 +351,6 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         pnlFormularioComanda.repaint();
     }
 
-
-    
     //300 altura
     private void agregarPaneles() {
         int cantidadPaneles = 0;
@@ -337,10 +358,11 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         int alturaPanel = 50;
         int sumadorAltoPnlPedidos = pnlPedidos.getHeight();
         int espaciado = 10;
+        
         for (int i = 0; i < 35; i++) {
             
-            
             JPanel otropanel = new JPanel();
+            
             otropanel.setBackground(new java.awt.Color(235, 204, 204));
             otropanel.setMaximumSize(new java.awt.Dimension(anchoPanel, alturaPanel));
             otropanel.setMinimumSize(new java.awt.Dimension(anchoPanel, alturaPanel));
@@ -349,20 +371,20 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
             Border bordeNegro = BorderFactory.createLineBorder(Color.BLACK);
 
             otropanel.setBorder(bordeNegro);
-            if(cantidadPaneles > 6){
-                sumadorAltoPnlPedidos+=alturaPanel;
+            if (cantidadPaneles > 6) {
+                sumadorAltoPnlPedidos += alturaPanel;
                 pnlPedidos.setPreferredSize(new Dimension(pnlPedidos.getWidth(), sumadorAltoPnlPedidos));
             }
-            
-            pnlPedidos.add(otropanel);   
+
+            pnlPedidos.add(otropanel);
             cantidadPaneles++;
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProducto;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cbxTipo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblDinero;

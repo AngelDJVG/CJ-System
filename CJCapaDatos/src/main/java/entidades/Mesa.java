@@ -59,7 +59,7 @@ public class Mesa implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.Mesa[ numero=" + numero + " ]";
+        return "Mesa " + numero;
     }
 }
 

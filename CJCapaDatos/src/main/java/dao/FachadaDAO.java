@@ -28,6 +28,7 @@ public class FachadaDAO {
         EntityManager entityManager = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
         this.comandasDAO = new ComandasDAO(entityManager);
         this.productosDAO = new ProductosDAO(entityManager);
+        this.mesasDAO = new MesasDAO(entityManager);
     }
 
     public Comanda registrarComanda(Comanda comanda) {

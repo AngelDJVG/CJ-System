@@ -4,6 +4,9 @@
  */
 package view;
 
+import control.Control;
+import entidades.TipoComida;
+import enums.TiposComanda;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JOptionPane;
@@ -11,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,16 +23,21 @@ import javax.swing.JTextField;
  */
 public class JDLElegirProducto extends javax.swing.JDialog {
 
+    private Control controlAplicacion;
+    private TipoComida tipoProductoActual = TipoComida.COMIDA;
+
     /**
      * Creates new form JDLElegirProducto
      */
-    public JDLElegirProducto(java.awt.Frame parent, boolean modal) {
+    public JDLElegirProducto(java.awt.Frame parent, boolean modal, Control controlAplicacion) {
         super(parent, modal);
         initComponents();
+        this.controlAplicacion = controlAplicacion;
+        controlAplicacion.cargarProductos(tblProductos, tipoProductoActual);
+        configuracionTabla();
         spnCantidad = new JSpinner();
         txaDetalles = new JTextArea();
         mostrarTextField();
-
     }
 
     /**
@@ -109,9 +119,7 @@ public class JDLElegirProducto extends javax.swing.JDialog {
             }
         });
 
-        btnBebidas.setBackground(new java.awt.Color(255, 255, 255));
         btnBebidas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBebidas.setForeground(new java.awt.Color(0, 0, 0));
         btnBebidas.setText("Bebidas");
         btnBebidas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(203, 95, 29), 3, true));
         btnBebidas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -129,9 +137,7 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         pnlContenedorTabla.setPreferredSize(new java.awt.Dimension(390, 332));
         pnlContenedorTabla.setLayout(new javax.swing.BoxLayout(pnlContenedorTabla, javax.swing.BoxLayout.LINE_AXIS));
 
-        tblProductos.setBackground(new java.awt.Color(255, 255, 255));
         tblProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tblProductos.setForeground(new java.awt.Color(0, 0, 0));
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"HOLA",  new Integer(1)}
@@ -202,7 +208,6 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         lblPrecio.setForeground(new java.awt.Color(203, 95, 29));
         lblPrecio.setText("Precios");
 
-        txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
         txtPrecio.setMaximumSize(new java.awt.Dimension(64, 22));
 
         lblCambiable.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -262,6 +267,11 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         btnRegresar.setMaximumSize(new java.awt.Dimension(100, 30));
         btnRegresar.setMinimumSize(new java.awt.Dimension(100, 30));
         btnRegresar.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
         pnlFondo.add(btnRegresar);
 
         btnAgregar.setBackground(new java.awt.Color(0, 191, 99));
@@ -285,6 +295,18 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void configuracionTabla() {
+        ListSelectionModel selectionModel = tblProductos.getSelectionModel();
+        selectionModel.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = tblProductos.getSelectedRow();
+                if (selectedRow != -1) {
+                    controlAplicacion.actualizarPrecioBebida(txtPrecio, tipoProductoActual, selectedRow);
+                }
+            }
+        });
+    }
+
     private void mostrarSpinner() {
         lblCambiable.setText("Cantidad");
         pnlContenedor.removeAll();
@@ -298,7 +320,7 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     private void mostrarTextField() {
         lblCambiable.setText("Detalles");
         pnlContenedor.removeAll();
-        
+
         txaDetalles.setLineWrap(true);  // Hacer que el JTextArea maneje saltos de línea
         txaDetalles.setWrapStyleWord(true);
         txaDetalles.setText("");
@@ -312,7 +334,10 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     }
 
     private void btnBebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBebidasActionPerformed
+        this.tipoProductoActual = TipoComida.BEBIDA;
+        controlAplicacion.cargarProductos(tblProductos, tipoProductoActual);
         mostrarSpinner();
+        configurarTxtPrecio();
         btnAlimentos.setBackground(Color.WHITE);
         btnAlimentos.setForeground(Color.BLACK);
         btnBebidas.setBackground(new Color(0xCB5F1D));
@@ -320,20 +345,53 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBebidasActionPerformed
 
     private void btnAlimentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlimentosActionPerformed
+        this.tipoProductoActual = TipoComida.COMIDA;
+        controlAplicacion.cargarProductos(tblProductos, tipoProductoActual);
         mostrarTextField();
+        configurarTxtPrecio();
         btnBebidas.setBackground(Color.WHITE);
         btnBebidas.setForeground(Color.BLACK);
         btnAlimentos.setBackground(new Color(0xCB5F1D));
         btnAlimentos.setForeground(Color.WHITE);
     }//GEN-LAST:event_btnAlimentosActionPerformed
 
+    private void configurarTxtPrecio() {
+        if (this.tipoProductoActual.equals(TipoComida.COMIDA)) {
+            this.txtPrecio.setEnabled(true);
+            this.txtPrecio.setText("");
+        } else {
+            this.txtPrecio.setEnabled(false);
+            this.txtPrecio.setText("");
+        }
+    }
+
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
+        this.extraerDatos();
+        this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     private JSpinner spnCantidad;
     private JTextArea txaDetalles;
+
+    private void extraerDatos() {
+        int selectedRow = tblProductos.getSelectedRow();
+
+        if (selectedRow != -1) {
+            if (tipoProductoActual.equals(TipoComida.BEBIDA)) {
+                Integer cantidad = (int)spnCantidad.getValue();
+                controlAplicacion.agregarBebidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), cantidad);
+            } else {
+                Integer precio = Integer.parseInt(txtPrecio.getText());
+                String detalles = txaDetalles.getText();
+                controlAplicacion.agregarComidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), precio, detalles);
+            }
+
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

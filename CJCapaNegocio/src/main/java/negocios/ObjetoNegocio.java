@@ -11,15 +11,19 @@ import java.util.List;
 
 /**
  *
- * @author gabli
+ * @author
  */
 public class ObjetoNegocio implements INegocios{
-    ControlComanda controlComanda;
-    ControlProducto controlProducto;
-    FachadaDAO fachadaDAO;
+    private ControlComanda controlComanda;
+    private ControlProducto controlProducto;
+    private ControlMesa controlMesa;
+            
+    private FachadaDAO fachadaDAO;
     public ObjetoNegocio(){
         fachadaDAO = new FachadaDAO();
         controlComanda = new ControlComanda(fachadaDAO);
+        controlProducto = new ControlProducto(fachadaDAO);
+        controlMesa = new ControlMesa(fachadaDAO);
     }
 
     @Override
@@ -64,9 +68,13 @@ public class ObjetoNegocio implements INegocios{
         return controlProducto.consultarProductosBebidas();
     }
 
-   
+    @Override
+    public List<Mesa> consultarMesas() {
+        return controlMesa.consultarMesas();
+    }
 
-   
-    
-    
+    @Override
+    public Mesa consultarMesa(Long numeroMesa) {
+        return controlMesa.consultarMesa(numeroMesa);
+    }
 }

@@ -27,8 +27,8 @@ public class ComandaMesa extends Comanda implements Serializable {
     public ComandaMesa() {
     }
 
-    public ComandaMesa(Calendar fecha, Mesa mesa) {
-        super(fecha, true);
+    public ComandaMesa(Mesa mesa) {
+        super(Calendar.getInstance(), true);
         this.mesa = mesa;
     }
 

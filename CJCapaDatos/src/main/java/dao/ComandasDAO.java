@@ -2,6 +2,7 @@
 package dao;
 
 import entidades.Comanda;
+import entidades.ComandaProducto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
@@ -24,6 +25,9 @@ public class ComandasDAO {
                 if (this.consultarComanda(comanda.getId()) != null) {
                     return null;
                 }
+            }
+            for (ComandaProducto comandaProducto : comanda.getComandaProductos()) {
+                comandaProducto.setComanda(comanda);
             }
             entityManager.getTransaction().begin();
             entityManager.persist(comanda);

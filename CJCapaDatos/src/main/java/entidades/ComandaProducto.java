@@ -35,19 +35,35 @@ public class ComandaProducto implements Serializable {
 
     @Column(name = "total")
     private Double total;
-    @Column(name="detalles")
+    @Column(name = "detalles")
     private String detalles;
-    
+
     public ComandaProducto() {
     }
 
-    public ComandaProducto(Comanda comanda, Producto producto, Integer cantidad,String detalles) {
+    public ComandaProducto(Comanda comanda, Producto producto, Integer cantidad, String detalles) {
         this.comanda = comanda;
         this.producto = producto;
         this.precioVenta = producto.getPrecio();
         this.cantidad = cantidad;
-        this.total = this.precioVenta * this.cantidad;
-        this.detalles=detalles;
+        this.cargarTotal();
+        this.detalles = detalles;
+    }
+
+    public ComandaProducto(Producto producto, Integer cantidad, String detalles) {
+        this.producto = producto;
+        this.precioVenta = producto.getPrecio();
+        this.cantidad = cantidad;
+        this.cargarTotal();
+        this.detalles = detalles;
+    }
+
+    private void cargarTotal() {
+        if (this.producto.getTipo().equals(TipoComida.BEBIDA)) {
+            this.total = this.precioVenta * this.cantidad;
+        } else {
+            this.total = (double) this.cantidad;
+        }
     }
 
     public Long getId() {
@@ -113,8 +129,6 @@ public class ComandaProducto implements Serializable {
         this.detalles = detalles;
     }
 
-    
-    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -130,7 +144,11 @@ public class ComandaProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "entidades.ComandaProducto[ id=" + id + " ]";
+        if (producto.getTipo().equals(TipoComida.BEBIDA)) {
+            return String.format("%.1f %s %s", total,producto.getNombre(),detalles);
+        }else{
+            return String.format("%.1f %d %s", total,cantidad,producto.getNombre());
+        }
     }
     
 }
