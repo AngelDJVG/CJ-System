@@ -4,6 +4,8 @@
  */
 package control;
 
+import java.awt.Component;
+import javax.swing.JOptionPane;
 import view.FrmComandas;
 import view.FrmRegistroComanda;
 
@@ -32,6 +34,10 @@ public class Mediador {
     
     public static void cerrarFrmRegistroComanda(){
         frmRegistroComanda.dispose();
+    }
+    
+    public static void mostrarOptionPaneError(Component component, String mensaje){
+        JOptionPane.showMessageDialog(component, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
 }

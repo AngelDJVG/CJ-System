@@ -34,6 +34,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
 
     private Control controlAplicacion;
 
+    private List<ComandaProducto> listaProductos;
     /**
      * Creates new form FrmRegistroComanda
      */
@@ -41,8 +42,8 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         initComponents();
         controlAplicacion = new Control();
         controlAplicacion.establecerVistaTotal(lblDinero);
-        actualizarPanel(0);
-        agregarPaneles();
+        controlAplicacion.cargarComandasProductos(pnlPedidos);
+        actualizarPanelFormulario(0);
         System.out.println(pnlPedidos.countComponents());
     }
 
@@ -72,10 +73,10 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         lblDinero = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         pnlPedidos = new javax.swing.JPanel();
+        lblDato = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
@@ -229,10 +230,14 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         jScrollPane2.setViewportView(pnlPedidos);
 
         pnlPedidos.setBackground(new java.awt.Color(255, 255, 255));
-        pnlPedidos.setMaximumSize(new java.awt.Dimension(330, 300));
-        pnlPedidos.setMinimumSize(new java.awt.Dimension(330, 300));
-        pnlPedidos.setPreferredSize(new java.awt.Dimension(330, 300));
-        pnlPedidos.setLayout(new java.awt.GridLayout(0, 1, 30, 10));
+        pnlPedidos.setMaximumSize(new java.awt.Dimension(320, 300));
+        pnlPedidos.setMinimumSize(new java.awt.Dimension(320, 300));
+        pnlPedidos.setPreferredSize(new java.awt.Dimension(320, 300));
+        pnlPedidos.setLayout(new java.awt.GridLayout(1, 0));
+
+        lblDato.setText("Sin productos");
+        pnlPedidos.add(lblDato);
+
         jScrollPane2.setViewportView(pnlPedidos);
 
         pnlDetalles.add(jScrollPane2);
@@ -249,7 +254,8 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
 
     private void cbxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoItemStateChanged
         int selectedIndex = cbxTipo.getSelectedIndex();
-        actualizarPanel(selectedIndex);
+        actualizarPanelFormulario(selectedIndex);
+        
     }//GEN-LAST:event_cbxTipoItemStateChanged
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
@@ -261,7 +267,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         controlAplicacion.registrarComanda(cbxTipo.getSelectedIndex());
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    public void actualizarPanel(int tipoComanda) {
+    public void actualizarPanelFormulario(int tipoComanda) {
        
         pnlFormularioComanda.removeAll();
 
@@ -351,35 +357,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         pnlFormularioComanda.repaint();
     }
 
-    //300 altura
-    private void agregarPaneles() {
-        int cantidadPaneles = 0;
-        int anchoPanel = 200;
-        int alturaPanel = 50;
-        int sumadorAltoPnlPedidos = pnlPedidos.getHeight();
-        int espaciado = 10;
-        
-        for (int i = 0; i < 35; i++) {
-            
-            JPanel otropanel = new JPanel();
-            
-            otropanel.setBackground(new java.awt.Color(235, 204, 204));
-            otropanel.setMaximumSize(new java.awt.Dimension(anchoPanel, alturaPanel));
-            otropanel.setMinimumSize(new java.awt.Dimension(anchoPanel, alturaPanel));
-            otropanel.setPreferredSize(new java.awt.Dimension(anchoPanel, alturaPanel));
-
-            Border bordeNegro = BorderFactory.createLineBorder(Color.BLACK);
-
-            otropanel.setBorder(bordeNegro);
-            if (cantidadPaneles > 6) {
-                sumadorAltoPnlPedidos += alturaPanel;
-                pnlPedidos.setPreferredSize(new Dimension(pnlPedidos.getWidth(), sumadorAltoPnlPedidos));
-            }
-
-            pnlPedidos.add(otropanel);
-            cantidadPaneles++;
-        }
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProducto;
@@ -387,6 +365,7 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblDato;
     private javax.swing.JLabel lblDinero;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblTitulo;

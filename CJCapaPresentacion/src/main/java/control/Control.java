@@ -4,6 +4,7 @@
  */
 package control;
 
+import componentes.BotonComandaProducto;
 import entidades.Comanda;
 import entidades.ComandaExpress;
 import entidades.ComandaMesa;
@@ -14,15 +15,24 @@ import entidades.Producto;
 import entidades.TipoComida;
 import enums.TiposComanda;
 import interfaces.INegocios;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import negocios.ObjetoNegocio;
-import view.FrmComandas;
+import view.JDLElegirProducto;
 
 /**
  *
@@ -32,27 +42,31 @@ public class Control {
 
     private List<ComandaProducto> productosComanda = new ArrayList<>();
     private List<Producto> productosCargados = new ArrayList<>();
-    
+
     private JComboBox<Mesa> cbxMesas;
+    private JPanel pnlComandasProducto;
     private JLabel vistaTotal;
     private JTextField vistaDireccion;
 
     private INegocios controlNegocio = new ObjetoNegocio();
 
-    public List<ComandaProducto> obtenerProductosComandaAgregados(){
+    public List<ComandaProducto> obtenerProductosComandaAgregados() {
         return productosComanda;
     }
-    
+
     public void agregarBebidaComanda(Producto producto, Integer cantidad) {
         productosComanda.add(new ComandaProducto(producto, cantidad, "No se incluyeron detalles"));
+
         this.calcularTotal();
+        cargarComandasProductos(pnlComandasProducto);
     }
 
     public void agregarComidaComanda(Producto producto, Integer cantidadPrecio, String detalles) {
         productosComanda.add(new ComandaProducto(producto, cantidadPrecio, detalles));
         this.calcularTotal();
+        cargarComandasProductos(pnlComandasProducto);
     }
-    
+
     public void cargarMesas(JComboBox<Mesa> cbxMesa) {
         this.cbxMesas = cbxMesa;
         List<Mesa> mesas = controlNegocio.consultarMesas();
@@ -73,6 +87,85 @@ public class Control {
         }
     }
 
+    public void cargarComandasProductos(JPanel pnlPedidos) {
+        this.pnlComandasProducto = pnlPedidos;
+
+        int anchoPanel = pnlComandasProducto.getWidth();
+        int alturaPanel = 50;
+        int anchoPanelConScroll = pnlComandasProducto.getWidth() - 10;
+        int espaciado = 10;
+        int alturaPanelPedidos = 0;
+        pnlPedidos.removeAll();
+
+        pnlPedidos.setLayout(new BoxLayout(pnlPedidos, BoxLayout.Y_AXIS));
+
+        for (ComandaProducto comandaProducto : productosComanda) {
+            JPanel pnlComanda = new JPanel(new BorderLayout());
+
+            pnlComanda.setBackground(new java.awt.Color(235, 204, 204));
+            pnlComanda.setMaximumSize(new java.awt.Dimension(anchoPanel, alturaPanel));
+            pnlComanda.setMinimumSize(new java.awt.Dimension(anchoPanel, alturaPanel));
+            pnlComanda.setPreferredSize(new java.awt.Dimension(anchoPanel, alturaPanel));
+
+            JLabel lblNombreProducto = new JLabel(comandaProducto.getCantidad() + " " + comandaProducto.getProducto().getNombre());
+            pnlComanda.add(lblNombreProducto, BorderLayout.WEST);
+
+            JPanel pnlBotones = new JPanel(new GridLayout(1, 3));
+
+            BotonComandaProducto btnDetalles = new BotonComandaProducto("/iconos/ic_informacion.png");
+            asignarActionListenerConsultar(btnDetalles, comandaProducto);
+            BotonComandaProducto btnEditar = new BotonComandaProducto("/iconos/ic_editar.png");
+            asignarActionListenerEditar(btnEditar, comandaProducto);
+            BotonComandaProducto btnEliminar = new BotonComandaProducto("/iconos/ic_eliminar.png");
+            asignarActionListenerBorrar(btnEliminar, comandaProducto);
+
+            pnlBotones.add(btnDetalles);
+            pnlBotones.add(btnEditar);
+            pnlBotones.add(btnEliminar);
+
+            pnlComanda.add(pnlBotones, BorderLayout.EAST);
+            if (productosComanda.size() > 6) {
+                alturaPanelPedidos += alturaPanel;
+
+            }
+            pnlPedidos.add(pnlComanda);
+        }
+
+        pnlPedidos.setPreferredSize(new Dimension(anchoPanel, alturaPanelPedidos));
+        pnlPedidos.revalidate();
+        pnlPedidos.repaint();
+    }
+
+    private void asignarActionListenerConsultar(JButton boton, ComandaProducto comandaProducto) {
+        boton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, comandaProducto.getDetalles());
+            }
+        });
+    }
+
+    private void asignarActionListenerEditar(JButton boton, ComandaProducto comandaProducto) {
+        boton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+    }
+
+    private void asignarActionListenerBorrar(JButton boton, ComandaProducto comandaProducto) {
+        boton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                productosComanda.remove(comandaProducto);
+                calcularTotal();
+                cargarComandasProductos(pnlComandasProducto);
+                
+            }
+        });
+    }
+
     public Producto obtenerProductoFila(int filaSelecionada) {
         if (filaSelecionada != -1) {
             return productosCargados.get(filaSelecionada);
@@ -81,10 +174,10 @@ public class Control {
         }
     }
 
-    public Mesa consultarMesaSeleccionada(){
-        return (Mesa)this.cbxMesas.getSelectedItem();
+    public Mesa consultarMesaSeleccionada() {
+        return (Mesa) this.cbxMesas.getSelectedItem();
     }
-    
+
     public void establecerVistaTotal(JLabel vistaTotal) {
         this.vistaTotal = vistaTotal;
     }
@@ -110,19 +203,18 @@ public class Control {
         this.vistaDireccion = lblDireccion;
     }
 
-    public void registrarComanda(int tipoSeleccionado){
-        if(tipoSeleccionado == TiposComanda.EXPRESS){
+    public void registrarComanda(int tipoSeleccionado) {
+        if (tipoSeleccionado == TiposComanda.EXPRESS) {
             controlNegocio.crearComanda(new ComandaExpress(), productosComanda);
         }
-        if(tipoSeleccionado == TiposComanda.MESA){
+        if (tipoSeleccionado == TiposComanda.MESA) {
             controlNegocio.crearComanda(new ComandaMesa(consultarMesaSeleccionada()), productosComanda);
         }
-        if(tipoSeleccionado == TiposComanda.PEDIDO){
+        if (tipoSeleccionado == TiposComanda.PEDIDO) {
             controlNegocio.crearComanda(new ComandaPedido(vistaDireccion.getText()), productosComanda);
         }
         Mediador.cerrarFrmRegistroComanda();
         Mediador.abrirFrmComandas();
     }
 
-    
 }
