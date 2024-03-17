@@ -1,4 +1,3 @@
-com\mycompany\cjcapapresentacion\asd.class
 control\Control.class
 view\FrmRegistroComanda$3.class
 view\JDLElegirProducto$1.class
@@ -11,11 +10,11 @@ view\FrmRegistroComanda$2.class
 enums\TiposComanda.class
 view\FrmComandas$1.class
 view\FrmComandas.class
-com\mycompany\cjcapapresentacion\CJCapaPresentacion.class
 view\JDLElegirProducto$2.class
 view\JDLElegirProducto.class
 control\Control$2.class
 view\JDLElegirProducto$4.class
 view\FrmRegistroComanda$1.class
+principal\Principal.class
 componentes\BotonComandaProducto.class
 view\FrmRegistroComanda.class

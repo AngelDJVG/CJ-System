@@ -67,8 +67,8 @@ public class MesasDAO {
         return null;
     }
  
-    public List<Mesa> consultarMesas(){
-        List<Mesa> mesas = entityManager.createQuery("SELECT a FROM Mesa a",Mesa.class).getResultList();
+    public List<Mesa> consultarMesas() {
+        List<Mesa> mesas = entityManager.createQuery("SELECT m FROM Mesa m WHERE NOT EXISTS (SELECT cm FROM ComandaMesa cm WHERE cm.mesa = m AND cm.estadoAbierta = true)", Mesa.class).getResultList();
         return mesas;
     }
 }

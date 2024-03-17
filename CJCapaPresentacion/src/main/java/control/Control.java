@@ -47,6 +47,7 @@ public class Control {
     private JPanel pnlComandasProducto;
     private JLabel vistaTotal;
     private JTextField vistaDireccion;
+    private JTextField vistaNombreCliente;
 
     private INegocios controlNegocio = new ObjetoNegocio();
 
@@ -211,10 +212,14 @@ public class Control {
             controlNegocio.crearComanda(new ComandaMesa(consultarMesaSeleccionada()), productosComanda);
         }
         if (tipoSeleccionado == TiposComanda.PEDIDO) {
-            controlNegocio.crearComanda(new ComandaPedido(vistaDireccion.getText()), productosComanda);
+            controlNegocio.crearComanda(new ComandaPedido(vistaDireccion.getText(), vistaNombreCliente.getText()), productosComanda);
         }
         Mediador.cerrarFrmRegistroComanda();
         Mediador.abrirFrmComandas();
+    }
+
+    public void asignarVistaNombreCliente(JTextField txtNombreCliente) {
+        this.vistaNombreCliente = txtNombreCliente;
     }
 
 }

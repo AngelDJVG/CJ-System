@@ -293,6 +293,8 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
                 txtNombreCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(203, 95, 29), 2, true));
                 pnlFormularioComanda.add(txtNombreCliente, gbc);
 
+                controlAplicacion.asignarVistaNombreCliente(txtNombreCliente);
+                
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 2;

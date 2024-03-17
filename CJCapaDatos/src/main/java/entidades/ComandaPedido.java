@@ -19,13 +19,17 @@ public class ComandaPedido extends Comanda implements Serializable {
 
     @Column(name = "direccion", nullable = false, length = 100)
     private String direccion;
+    
+    @Column(name = "nombre_cliente", nullable = false, length = 100)
+    private String nombreCliente;
 
     public ComandaPedido() {
     }
 
-    public ComandaPedido(String direccion) {
+    public ComandaPedido(String direccion, String nombreCliente) {
         super(Calendar.getInstance(), false);
         this.direccion = direccion;
+        this.nombreCliente = nombreCliente;
     }
 
     @Override
