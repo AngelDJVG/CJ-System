@@ -58,7 +58,7 @@ public class ComandaProducto implements Serializable {
         this.detalles = detalles;
     }
 
-    private void cargarTotal() {
+    public void cargarTotal() {
         if (this.producto.getTipo().equals(TipoComida.BEBIDA)) {
             this.total = this.precioVenta * this.cantidad;
         } else {

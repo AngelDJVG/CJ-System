@@ -50,25 +50,25 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         this.btnAgregar.setText("Guardar");
         this.controlAplicacion = controlAplicacion;
         spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+        txaDetalles = new JTextArea();
+        configuracionSpinner(spnCantidad);
         controlAplicacion.cargarProductos(tblProductos, comandaProducto.getProducto().getTipo());
         configuracionTabla();
         configurarInterfaz(comandaProducto);
         ajustarLabels();
-        configuracionSpinner(spnCantidad);
-        txaDetalles = new JTextArea();
-        mostrarTextField();
     }
 
     private void configurarInterfaz(ComandaProducto comandaProducto) {
         Producto productoComanda = comandaProducto.getProducto();
         if (productoComanda.getTipo().equals(TipoComida.BEBIDA)) {
             ajustarInterfazModoBebidas();
-            txtPrecio.setText(String.valueOf(comandaProducto.getTotal()));
-            txaDetalles.setText(comandaProducto.getDetalles());
-        } else {
-            ajustarInterfazModoComidas();
             txtPrecio.setText(String.valueOf(comandaProducto.getPrecioVenta()));
             spnCantidad.setValue(comandaProducto.getCantidad());
+        } else {
+            ajustarInterfazModoComidas();
+            mostrarTextField();
+            txtPrecio.setText(String.valueOf(comandaProducto.getCantidad()));
+            txaDetalles.setText(comandaProducto.getDetalles());
         }
         deshabilitarBotones();
     }
@@ -435,7 +435,7 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         }
     }
 
-    private void agregarProductoComanda(){
+    private void agregarProductoComanda() {
         int selectedRow = tblProductos.getSelectedRow();
         if (selectedRow != -1) {
             if (!esVacioAlgunCampo()) {
@@ -446,15 +446,22 @@ public class JDLElegirProducto extends javax.swing.JDialog {
             Mediador.mostrarOptionPaneError(this, "Debe seleccionar un producto");
         }
     }
-    
-    private void validarTipoAccion(){
-        if(btnAgregar.getText().equals("Agregar")){
-            agregarProductoComanda();
-        }else{
-            //FALTA LA IMPLEMENTACION PARA LA EDICION O ACTUALIZACION DE UN COMANDAPRODUCTO
+
+    private void editarProductoComanda() {
+        if (!esVacioAlgunCampo()) {
+            this.extraerDatos(-1);
+            this.dispose();
         }
     }
-    
+
+    private void validarTipoAccion() {
+        if (btnAgregar.getText().equals("Agregar")) {
+            agregarProductoComanda();
+        } else {
+            editarProductoComanda();
+        }
+    }
+
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         validarTipoAccion();
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -522,16 +529,30 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     private void extraerDatos(int selectedRow) {
         if (tipoProductoActual.equals(TipoComida.BEBIDA)) {
             Integer cantidad = (int) spnCantidad.getValue();
-            controlAplicacion.agregarBebidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), cantidad);
+            if (btnAgregar.getText().equals("Agregar")) {
+                controlAplicacion.agregarBebidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), cantidad);
+            } else {
+                controlAplicacion.editarBebidaComanda(cantidad);
+            }
         } else {
             Integer precio = Integer.valueOf(txtPrecio.getText());
             String detalles = txaDetalles.getText();
             if (detalles.isBlank()) {
                 detalles = "Sin detalles";
             }
-            controlAplicacion.agregarComidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), precio, detalles);
+            if (btnAgregar.getText().equals("Agregar")) {
+                controlAplicacion.agregarComidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), precio, detalles);
+            } else {
+                controlAplicacion.editarComidaComanda(precio, detalles);
+            }
         }
-        Mediador.mostrarOptionPaneAviso(this, "Se ha agregado un producto");
+
+        if (btnAgregar.getText().equals("Agregar")) {
+            Mediador.mostrarOptionPaneAviso(this, "Se ha agregado un producto");
+        } else {
+            Mediador.mostrarOptionPaneAviso(this, "Se ha editado un producto");
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

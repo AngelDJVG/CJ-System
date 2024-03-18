@@ -43,6 +43,7 @@ public class Control {
 
     private List<ComandaProducto> productosComanda = new ArrayList<>();
     private List<Producto> productosCargados = new ArrayList<>();
+    private ComandaProducto ultimoEventoProducto;
 
     private JComboBox<Mesa> cbxMesas;
     private JPanel pnlComandasProducto;
@@ -57,6 +58,24 @@ public class Control {
         return productosComanda;
     }
 
+    public void editarBebidaComanda(Integer cantidad){
+        ultimoEventoProducto.setCantidad(cantidad);
+        ultimoEventoProducto.cargarTotal();
+        
+        this.calcularTotal();
+        cargarComandasProductos(pnlComandasProducto);
+    }
+    
+    public void editarComidaComanda(Integer cantidadPrecio, String detalles){
+        ultimoEventoProducto.setCantidad(cantidadPrecio);
+        ultimoEventoProducto.setDetalles(detalles);
+        
+        ultimoEventoProducto.cargarTotal();
+        
+        this.calcularTotal();
+        cargarComandasProductos(pnlComandasProducto);
+    }
+    
     public void agregarBebidaComanda(Producto producto, Integer cantidad) {
         productosComanda.add(new ComandaProducto(producto, cantidad, "No se incluyeron detalles"));
 
@@ -152,6 +171,7 @@ public class Control {
         boton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ultimoEventoProducto = comandaProducto;
                 JDLElegirProducto elegirProducto = new JDLElegirProducto(Mediador.obtenerFrmRegistroComanda(), true, controlAplicacion, comandaProducto);
                 elegirProducto.setVisible(true);
             }
