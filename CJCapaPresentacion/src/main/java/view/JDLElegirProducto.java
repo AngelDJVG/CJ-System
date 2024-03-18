@@ -7,6 +7,7 @@ package view;
 import control.Control;
 import control.Mediador;
 import entidades.ComandaProducto;
+import entidades.Producto;
 import entidades.TipoComida;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,6 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -34,14 +38,44 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         controlAplicacion.cargarProductos(tblProductos, tipoProductoActual);
         configuracionTabla();
         ajustarLabels();
-        spnCantidad = new JSpinner();
+        spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+        configuracionSpinner(spnCantidad);
         txaDetalles = new JTextArea();
         mostrarTextField();
     }
 
-    public JDLElegirProducto(java.awt.Frame parent, boolean modal, ComandaProducto comandaProducto) {
+    public JDLElegirProducto(java.awt.Frame parent, boolean modal, Control controlAplicacion, ComandaProducto comandaProducto) {
         super(parent, modal);
         initComponents();
+        this.btnAgregar.setText("Guardar");
+        this.controlAplicacion = controlAplicacion;
+        spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+        controlAplicacion.cargarProductos(tblProductos, comandaProducto.getProducto().getTipo());
+        configuracionTabla();
+        configurarInterfaz(comandaProducto);
+        ajustarLabels();
+        configuracionSpinner(spnCantidad);
+        txaDetalles = new JTextArea();
+        mostrarTextField();
+    }
+
+    private void configurarInterfaz(ComandaProducto comandaProducto) {
+        Producto productoComanda = comandaProducto.getProducto();
+        if (productoComanda.getTipo().equals(TipoComida.BEBIDA)) {
+            ajustarInterfazModoBebidas();
+            txtPrecio.setText(String.valueOf(comandaProducto.getTotal()));
+            txaDetalles.setText(comandaProducto.getDetalles());
+        } else {
+            ajustarInterfazModoComidas();
+            txtPrecio.setText(String.valueOf(comandaProducto.getPrecioVenta()));
+            spnCantidad.setValue(comandaProducto.getCantidad());
+        }
+        deshabilitarBotones();
+    }
+
+    private void deshabilitarBotones() {
+        btnAlimentos.setEnabled(false);
+        btnBebidas.setEnabled(false);
     }
 
     /**
@@ -74,7 +108,6 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(500, 620));
         setMinimumSize(new java.awt.Dimension(500, 620));
-        setPreferredSize(new java.awt.Dimension(500, 620));
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
@@ -325,11 +358,23 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     private void mostrarSpinner() {
 
         pnlContenedor.removeAll();
-        spnCantidad.setValue(0);
+        spnCantidad.setValue(1);
         pnlContenedor.add(spnCantidad, BorderLayout.CENTER);
 
         pnlContenedor.revalidate();
         pnlContenedor.repaint();
+    }
+
+    private void configuracionSpinner(JSpinner spinner) {
+        spinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int value = (int) spinner.getValue();
+                if (value < 1) {
+                    spinner.setValue(1);
+                }
+            }
+        });
     }
 
     private void mostrarTextField() {
@@ -348,7 +393,7 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         pnlContenedor.repaint();
     }
 
-    private void btnBebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBebidasActionPerformed
+    private void ajustarInterfazModoBebidas() {
         this.tipoProductoActual = TipoComida.BEBIDA;
         controlAplicacion.cargarProductos(tblProductos, tipoProductoActual);
         mostrarSpinner();
@@ -358,9 +403,9 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         btnAlimentos.setForeground(Color.BLACK);
         btnBebidas.setBackground(new Color(0xCB5F1D));
         btnBebidas.setForeground(Color.WHITE);
-    }//GEN-LAST:event_btnBebidasActionPerformed
+    }
 
-    private void btnAlimentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlimentosActionPerformed
+    private void ajustarInterfazModoComidas() {
         this.tipoProductoActual = TipoComida.COMIDA;
         controlAplicacion.cargarProductos(tblProductos, tipoProductoActual);
         mostrarTextField();
@@ -370,6 +415,14 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         btnBebidas.setForeground(Color.BLACK);
         btnAlimentos.setBackground(new Color(0xCB5F1D));
         btnAlimentos.setForeground(Color.WHITE);
+    }
+
+    private void btnBebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBebidasActionPerformed
+        ajustarInterfazModoBebidas();
+    }//GEN-LAST:event_btnBebidasActionPerformed
+
+    private void btnAlimentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlimentosActionPerformed
+        ajustarInterfazModoComidas();
     }//GEN-LAST:event_btnAlimentosActionPerformed
 
     private void configurarTxtPrecio() {
@@ -382,19 +435,44 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         }
     }
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (!esVacioAlgunCampo()) {
-            this.extraerDatos();
-            this.dispose();
+    private void agregarProductoComanda(){
+        int selectedRow = tblProductos.getSelectedRow();
+        if (selectedRow != -1) {
+            if (!esVacioAlgunCampo()) {
+                this.extraerDatos(selectedRow);
+                this.dispose();
+            }
+        } else {
+            Mediador.mostrarOptionPaneError(this, "Debe seleccionar un producto");
         }
-
+    }
+    
+    private void validarTipoAccion(){
+        if(btnAgregar.getText().equals("Agregar")){
+            agregarProductoComanda();
+        }else{
+            //FALTA LA IMPLEMENTACION PARA LA EDICION O ACTUALIZACION DE UN COMANDAPRODUCTO
+        }
+    }
+    
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        validarTipoAccion();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    private boolean esNumero(String str) {
+    private boolean esEntero(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean esDecimal(String str) {
         try {
             Double.parseDouble(str);
             return true;
@@ -408,14 +486,14 @@ public class JDLElegirProducto extends javax.swing.JDialog {
             if (txtPrecio.getText() == null || txtPrecio.getText().isBlank()) {
                 Mediador.mostrarOptionPaneError(this, "El precio del alimento no puede estar en blanco");
                 return true;
-            } else if (!esNumero(txtPrecio.getText())) {
-                Mediador.mostrarOptionPaneError(this, "El precio del alimento debe ser un número válido");
+            } else if (!esEntero(txtPrecio.getText())) {
+                Mediador.mostrarOptionPaneError(this, "El precio del alimento debe ser entero");
                 return true;
             }
         } else if (tipoProductoActual == TipoComida.BEBIDA) {
             boolean precioVacio = txtPrecio.getText() == null || txtPrecio.getText().isBlank();
             boolean cantidadMenorAUno = spnCantidad.getValue() == null || (int) spnCantidad.getValue() < 1;
-            boolean noNumero = !esNumero(txtPrecio.getText());
+            boolean noNumero = !esDecimal(txtPrecio.getText());
             if (precioVacio && cantidadMenorAUno) {
                 Mediador.mostrarOptionPaneError(this, "Tanto el precio como la cantidad de la bebida no pueden estar en blanco o ser menor a 1");
                 return true;
@@ -441,22 +519,19 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     private JSpinner spnCantidad;
     private JTextArea txaDetalles;
 
-    private void extraerDatos() {
-        int selectedRow = tblProductos.getSelectedRow();
-        if (selectedRow != -1) {
-            if (tipoProductoActual.equals(TipoComida.BEBIDA)) {
-                Integer cantidad = (int) spnCantidad.getValue();
-                controlAplicacion.agregarBebidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), cantidad);
-            } else {
-                Integer precio = Integer.valueOf(txtPrecio.getText());
-                String detalles = txaDetalles.getText();
-                if (detalles.isBlank()) {
-                    detalles = "Sin detalles";
-                }
-                controlAplicacion.agregarComidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), precio, detalles);
+    private void extraerDatos(int selectedRow) {
+        if (tipoProductoActual.equals(TipoComida.BEBIDA)) {
+            Integer cantidad = (int) spnCantidad.getValue();
+            controlAplicacion.agregarBebidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), cantidad);
+        } else {
+            Integer precio = Integer.valueOf(txtPrecio.getText());
+            String detalles = txaDetalles.getText();
+            if (detalles.isBlank()) {
+                detalles = "Sin detalles";
             }
-
+            controlAplicacion.agregarComidaComanda(controlAplicacion.obtenerProductoFila(selectedRow), precio, detalles);
         }
+        Mediador.mostrarOptionPaneAviso(this, "Se ha agregado un producto");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -477,4 +552,5 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     private javax.swing.JTable tblProductos;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
+
 }

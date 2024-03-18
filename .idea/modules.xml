@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/CJ-System.iml" filepath="$PROJECT_DIR$/.idea/CJ-System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CJCapaDatos/src/CJCapaDatos.iml" filepath="$PROJECT_DIR$/CJCapaDatos/src/CJCapaDatos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CJCapaNegocio/CJCapaNegocio.iml" filepath="$PROJECT_DIR$/CJCapaNegocio/CJCapaNegocio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CJCapaPresentacion/CJCapaPresentacion.iml" filepath="$PROJECT_DIR$/CJCapaPresentacion/CJCapaPresentacion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CJCapaDatos/target/target.iml" filepath="$PROJECT_DIR$/CJCapaDatos/target/target.iml" />
+    </modules>
+  </component>
+</project>

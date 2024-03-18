@@ -32,6 +32,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import negocios.ObjetoNegocio;
+import utilidades.Validador;
 import view.JDLElegirProducto;
 
 /**
@@ -50,6 +51,7 @@ public class Control {
     private JTextField vistaNombreCliente;
 
     private INegocios controlNegocio = new ObjetoNegocio();
+    private Validador validador = new Validador();
 
     public List<ComandaProducto> obtenerProductosComandaAgregados() {
         return productosComanda;
@@ -116,7 +118,7 @@ public class Control {
             BotonComandaProducto btnDetalles = new BotonComandaProducto("/iconos/ic_informacion.png");
             asignarActionListenerConsultar(btnDetalles, comandaProducto);
             BotonComandaProducto btnEditar = new BotonComandaProducto("/iconos/ic_editar.png");
-            asignarActionListenerEditar(btnEditar, comandaProducto);
+            asignarActionListenerEditar(btnEditar, comandaProducto, this);
             BotonComandaProducto btnEliminar = new BotonComandaProducto("/iconos/ic_eliminar.png");
             asignarActionListenerBorrar(btnEliminar, comandaProducto);
 
@@ -146,11 +148,12 @@ public class Control {
         });
     }
 
-    private void asignarActionListenerEditar(JButton boton, ComandaProducto comandaProducto) {
+    private void asignarActionListenerEditar(JButton boton, ComandaProducto comandaProducto, Control controlAplicacion) {
         boton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                JDLElegirProducto elegirProducto = new JDLElegirProducto(Mediador.obtenerFrmRegistroComanda(), true, controlAplicacion, comandaProducto);
+                elegirProducto.setVisible(true);
             }
         });
     }
@@ -162,7 +165,7 @@ public class Control {
                 productosComanda.remove(comandaProducto);
                 calcularTotal();
                 cargarComandasProductos(pnlComandasProducto);
-                
+
             }
         });
     }
@@ -205,21 +208,44 @@ public class Control {
     }
 
     public void registrarComanda(int tipoSeleccionado) {
-        if (tipoSeleccionado == TiposComanda.EXPRESS) {
-            controlNegocio.crearComanda(new ComandaExpress(), productosComanda);
+        if (validador.contieneProductos(productosComanda)) {
+            if (tipoSeleccionado == TiposComanda.EXPRESS) {
+                controlNegocio.crearComanda(new ComandaExpress(), productosComanda);
+                volverInicio();
+            }
+            if (tipoSeleccionado == TiposComanda.MESA) {
+                controlNegocio.crearComanda(new ComandaMesa(consultarMesaSeleccionada()), productosComanda);
+                volverInicio();
+            }
+            if (tipoSeleccionado == TiposComanda.PEDIDO) {
+                String direccion = vistaDireccion.getText(), nombreCliente = vistaNombreCliente.getText();
+                if (validador.datosPedidoValidos(direccion, nombreCliente)) {
+                    controlNegocio.crearComanda(new ComandaPedido(direccion, nombreCliente), productosComanda);
+                    volverInicio();
+                } else {
+                    this.mostrarMensaje("Llene correctamente los campos de dirección y nombre", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } else {
+            this.mostrarMensaje(
+                    "Debe registrar al menos un producto",
+                    "Aviso",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
-        if (tipoSeleccionado == TiposComanda.MESA) {
-            controlNegocio.crearComanda(new ComandaMesa(consultarMesaSeleccionada()), productosComanda);
-        }
-        if (tipoSeleccionado == TiposComanda.PEDIDO) {
-            controlNegocio.crearComanda(new ComandaPedido(vistaDireccion.getText(), vistaNombreCliente.getText()), productosComanda);
-        }
+    }
+
+    private void volverInicio() {
+        mostrarMensaje("Se ha registrado la comanda", "Registro", JOptionPane.INFORMATION_MESSAGE);
         Mediador.cerrarFrmRegistroComanda();
         Mediador.abrirFrmComandas();
     }
 
     public void asignarVistaNombreCliente(JTextField txtNombreCliente) {
         this.vistaNombreCliente = txtNombreCliente;
+    }
+
+    public void mostrarMensaje(String msj, String titulo, int tipoMensaje) {
+        JOptionPane.showMessageDialog(null, msj, titulo, tipoMensaje);
     }
 
 }

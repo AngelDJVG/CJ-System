@@ -32,6 +32,10 @@ public class Mediador {
         frmRegistroComanda.setVisible(true);
     }
     
+    public static FrmRegistroComanda obtenerFrmRegistroComanda(){
+        return frmRegistroComanda;
+    }
+    
     public static void cerrarFrmRegistroComanda(){
         frmRegistroComanda.dispose();
     }
@@ -40,4 +44,7 @@ public class Mediador {
         JOptionPane.showMessageDialog(component, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
+    public static void mostrarOptionPaneAviso(Component component, String mensaje){
+        JOptionPane.showMessageDialog(component, mensaje, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+    }
 }
