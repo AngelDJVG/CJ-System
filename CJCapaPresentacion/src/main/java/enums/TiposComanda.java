@@ -12,4 +12,6 @@ public class TiposComanda {
     final public static int PEDIDO = 0;
     final public static int MESA = 1;
     final public static int EXPRESS = 2;
+    final public static int CERRADA = 3;
+    
 }

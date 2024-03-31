@@ -147,6 +147,10 @@ public class Comanda implements Serializable {
         return "Comanda{" + "id=" + id + ", fecha=" + fecha + ", movimiento=" + movimiento + ", estadoAbierta=" + estadoAbierta + ", comandaProductos=" + comandaProductos + '}';
     }
 
+    public Object getDireccion() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     
 
 }

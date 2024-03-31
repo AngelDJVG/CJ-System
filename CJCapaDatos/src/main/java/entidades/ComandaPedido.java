@@ -27,7 +27,7 @@ public class ComandaPedido extends Comanda implements Serializable {
     }
 
     public ComandaPedido(String direccion, String nombreCliente) {
-        super(Calendar.getInstance(), false);
+        super(Calendar.getInstance(), true);
         this.direccion = direccion;
         this.nombreCliente = nombreCliente;
     }
@@ -37,6 +37,14 @@ public class ComandaPedido extends Comanda implements Serializable {
         int hash = 0;
         hash += (this.getId() != null ? this.getId().hashCode() : 0);
         return hash;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
     }
 
     @Override

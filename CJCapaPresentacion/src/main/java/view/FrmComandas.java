@@ -5,6 +5,10 @@
 package view;
 
 import control.Mediador;
+import enums.TiposComanda;
+import static enums.TiposComanda.CERRADA;
+import static enums.TiposComanda.MESA;
+import static enums.TiposComanda.PEDIDO;
 
 /**
  *
@@ -92,6 +96,11 @@ public class FrmComandas extends javax.swing.JFrame {
         btnMesas.setMinimumSize(new java.awt.Dimension(200, 200));
         btnMesas.setOpaque(true);
         btnMesas.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnMesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMesasActionPerformed(evt);
+            }
+        });
         pnlOpciones.add(btnMesas);
 
         btnPedidos.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
@@ -104,6 +113,11 @@ public class FrmComandas extends javax.swing.JFrame {
         btnPedidos.setMaximumSize(new java.awt.Dimension(200, 200));
         btnPedidos.setMinimumSize(new java.awt.Dimension(200, 200));
         btnPedidos.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnPedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPedidosActionPerformed(evt);
+            }
+        });
         pnlOpciones.add(btnPedidos);
 
         btnCerradas.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
@@ -116,6 +130,11 @@ public class FrmComandas extends javax.swing.JFrame {
         btnCerradas.setMaximumSize(new java.awt.Dimension(200, 200));
         btnCerradas.setMinimumSize(new java.awt.Dimension(200, 200));
         btnCerradas.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnCerradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerradasActionPerformed(evt);
+            }
+        });
         pnlOpciones.add(btnCerradas);
 
         pnlFondo.add(pnlOpciones);
@@ -167,6 +186,21 @@ public class FrmComandas extends javax.swing.JFrame {
         Mediador.abrirFrmRegistroComanda();
         
     }//GEN-LAST:event_btnCrearComandaActionPerformed
+
+    private void btnMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesasActionPerformed
+        this.dispose();
+        Mediador.abrirFrmAdministrarComanda(MESA);
+    }//GEN-LAST:event_btnMesasActionPerformed
+
+    private void btnPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidosActionPerformed
+        this.dispose();
+        Mediador.abrirFrmAdministrarComanda(PEDIDO);
+    }//GEN-LAST:event_btnPedidosActionPerformed
+
+    private void btnCerradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerradasActionPerformed
+        this.dispose();
+        Mediador.abrirFrmAdministrarComanda(CERRADA);
+    }//GEN-LAST:event_btnCerradasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

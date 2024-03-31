@@ -16,6 +16,8 @@ public interface INegocios {
     public List<Comanda> consultarComandasExpress();
     public List<Comanda> consultarComandasPedido();
     public List<Comanda> consultarComandasMesa();
+    public List<Comanda> consultarComandasCerrada();
+    public Comanda consultarComanda(Long id);
     public Comanda crearComanda(Comanda comanda, List<ComandaProducto> comandaProductos);
     public Comanda modificarComanda(Comanda comanda);
     public Comanda eliminarComanda(Comanda comanda);

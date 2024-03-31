@@ -154,6 +154,9 @@
                   <Dimension value="[200, 200]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMesasActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnPedidos">
               <Properties>
@@ -184,6 +187,9 @@
                   <Dimension value="[200, 200]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPedidosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnCerradas">
               <Properties>
@@ -214,6 +220,9 @@
                   <Dimension value="[200, 200]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerradasActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

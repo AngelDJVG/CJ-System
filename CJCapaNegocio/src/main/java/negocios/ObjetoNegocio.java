@@ -35,7 +35,7 @@ public class ObjetoNegocio implements INegocios{
     public List<Comanda> consultarComandasExpress() {
         return controlComanda.consultarComandasExpress();
     }
-
+    
     @Override
     public List<Comanda> consultarComandasPedido() {
         return controlComanda.consultarComandasPedido();
@@ -76,5 +76,14 @@ public class ObjetoNegocio implements INegocios{
     @Override
     public Mesa consultarMesa(Long numeroMesa) {
         return controlMesa.consultarMesa(numeroMesa);
+    }
+    public List<Comanda> consultarComandasCerrada()
+    {
+        return controlComanda.consultarCerradas();
+    }
+
+    @Override
+    public Comanda consultarComanda(Long id) {
+        return controlComanda.consultarComanda(id);
     }
 }

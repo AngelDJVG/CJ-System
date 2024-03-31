@@ -14,6 +14,10 @@ import entidades.Mesa;
 import entidades.Producto;
 import entidades.TipoComida;
 import enums.TiposComanda;
+import static enums.TiposComanda.CERRADA;
+import static enums.TiposComanda.EXPRESS;
+import static enums.TiposComanda.MESA;
+import static enums.TiposComanda.PEDIDO;
 import interfaces.INegocios;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -75,6 +79,19 @@ public class Control {
         this.calcularTotal();
         cargarComandasProductos(pnlComandasProducto);
     }
+    public List<Comanda> cargarComandas(int tipoComanda)
+    {
+         switch(tipoComanda)
+        {
+            case PEDIDO:
+                return controlNegocio.consultarComandasPedido();
+            case MESA:
+                return controlNegocio.consultarComandasMesa();
+            case CERRADA:
+                return controlNegocio.consultarComandasCerrada();
+        }
+        return null;
+    }
     
     public void agregarBebidaComanda(Producto producto, Integer cantidad) {
         productosComanda.add(new ComandaProducto(producto, cantidad, "No se incluyeron detalles"));
@@ -87,6 +104,11 @@ public class Control {
         productosComanda.add(new ComandaProducto(producto, cantidadPrecio, detalles));
         this.calcularTotal();
         cargarComandasProductos(pnlComandasProducto);
+    }
+    
+    public void agregarProductosComanda(List<ComandaProducto> productosComanda)
+    {
+        this.productosComanda = productosComanda;
     }
 
     public void cargarMesas(JComboBox<Mesa> cbxMesa) {
@@ -197,7 +219,77 @@ public class Control {
             return null;
         }
     }
+    public DefaultTableModel obtenerTablaComandas(int tipoComanda){
+        switch(tipoComanda)
+        {
+            case PEDIDO:
+                return obtenerTablaPedidos();
 
+            case MESA:
+                return obtenerTablaMesas();
+            case CERRADA:
+                return obtenerTablaCerradas();
+
+        }
+        
+        return null;
+    }
+    public DefaultTableModel obtenerTablaCerradas(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Editar");
+        model.addColumn("Eliminar");
+        List<Comanda> comandas = cargarComandas(CERRADA);
+        // Llenar la tabla con los objetos de la lista
+        
+        for (Comanda obj : comandas) {
+            
+            
+            Object[] rowData = {obj.getId(), "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
+            model.addRow(rowData);
+        }
+        
+        return model;
+    }
+    public DefaultTableModel obtenerTablaPedidos(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Direccion");
+        model.addColumn("Cerrar");
+        model.addColumn("Editar");
+        model.addColumn("Eliminar");
+        List<Comanda> comandas = cargarComandas(PEDIDO);
+        // Llenar la tabla con los objetos de la lista
+        
+        for (Comanda obj : comandas) {
+            
+            ComandaPedido pedido = (ComandaPedido) obj;
+            Object[] rowData = {pedido.getId(),pedido.getDireccion(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
+            model.addRow(rowData);
+        }
+        
+        return model;
+    }
+    public DefaultTableModel obtenerTablaMesas(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Mesa");
+        model.addColumn("Cerrar");
+        model.addColumn("Editar");
+        model.addColumn("Eliminar");
+        List<Comanda> comandas = cargarComandas(MESA);
+        // Llenar la tabla con los objetos de la lista
+        
+        for (Comanda obj : comandas) {
+            
+            ComandaMesa mesa = (ComandaMesa) obj;
+            Object[] rowData = {mesa.getId(),mesa.getMesa(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
+            model.addRow(rowData);
+        }
+        
+        return model;
+    }
+    
     public Mesa consultarMesaSeleccionada() {
         return (Mesa) this.cbxMesas.getSelectedItem();
     }
@@ -253,7 +345,35 @@ public class Control {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    public void actualizarComanda(int tipoSeleccionado,long id) {
+        if (validador.contieneProductos(productosComanda)) {
+            if (tipoSeleccionado == TiposComanda.EXPRESS) {
+                controlNegocio.crearComanda(new ComandaExpress(), productosComanda);
+                volverInicio();
+            }
+            if (tipoSeleccionado == TiposComanda.MESA) {
+                controlNegocio.crearComanda(new ComandaMesa(consultarMesaSeleccionada()), productosComanda);
+                volverInicio();
+            }
+            if (tipoSeleccionado == TiposComanda.PEDIDO) {
+                String direccion = vistaDireccion.getText(), nombreCliente = vistaNombreCliente.getText();
+                if (validador.datosPedidoValidos(direccion, nombreCliente)) {
+                    ComandaPedido comandaPedido = new ComandaPedido(direccion, nombreCliente);
+                    comandaPedido.setId(id);
+                    comandaPedido.setComandaProductos(productosComanda);
+                    controlNegocio.modificarComanda(comandaPedido);
+                    Mediador.abrirFrmAdministrarComanda(PEDIDO);
+                } else {
+                    this.mostrarMensaje("Llene correctamente los campos de dirección y nombre", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } else {
+            this.mostrarMensaje(
+                    "Debe registrar al menos un producto",
+                    "Aviso",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     private void volverInicio() {
         mostrarMensaje("Se ha registrado la comanda", "Registro", JOptionPane.INFORMATION_MESSAGE);
         Mediador.cerrarFrmRegistroComanda();
@@ -266,6 +386,21 @@ public class Control {
 
     public void mostrarMensaje(String msj, String titulo, int tipoMensaje) {
         JOptionPane.showMessageDialog(null, msj, titulo, tipoMensaje);
+    }
+    
+    public Comanda consultarComanda(Long id)
+    {
+        
+        return controlNegocio.consultarComanda(id);
+    }
+    public void cerrarComanda(Comanda comanda)
+    {
+        comanda.setEstadoAbierta(false);
+        controlNegocio.modificarComanda(comanda);
+    }
+    public void pagarComanda()
+    {
+        JOptionPane.showMessageDialog(null, "PROCESANDO PAGO...", "Pago", JOptionPane.INFORMATION_MESSAGE);
     }
 
 }

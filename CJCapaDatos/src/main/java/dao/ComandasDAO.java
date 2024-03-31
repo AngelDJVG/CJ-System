@@ -48,16 +48,31 @@ public class ComandasDAO {
     }
 
     public Comanda modificarComanda(Comanda comanda) {
+        
         if (comanda != null) {
+            System.out.println(comanda.getDireccion());
             if (comanda.getId() != null) {
                 entityManager.getTransaction().begin();
-                entityManager.persist(comanda);
+                System.out.println(comanda.getComandaProductos().get(0).getComanda().getId());
+                entityManager.merge(revisarListaProductos(comanda));
                 entityManager.getTransaction().commit();
                 return comanda;
             }
         }
         return null;
     }
+    public Comanda revisarListaProductos(Comanda comanda)
+    {
+        for (ComandaProducto comandaProducto : comanda.getComandaProductos()) {
+            if(comandaProducto.getComanda() == null)
+            {
+                comandaProducto.setComanda(comanda);
+            }
+        }
+        
+        return comanda;
+    }
+  
 
     public Comanda eliminarComanda(Comanda comanda) {
         if (comanda != null) {
@@ -70,8 +85,9 @@ public class ComandasDAO {
         }
         return null;
     }
+    
     public List<Comanda> consultarComandas(){
-        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a",Comanda.class).getResultList();
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a WHERE a.estadoAbierta=true",Comanda.class).getResultList();
         return comandas;
     }
    
@@ -81,15 +97,15 @@ public class ComandasDAO {
     }
     
     public List<Comanda> consultarComandasMesa(){
-        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaMesa a",Comanda.class).getResultList();
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaMesa a WHERE a.estadoAbierta=true",Comanda.class).getResultList();
         return comandas;
     }
      public List<Comanda> consultarComandasPedido(){
-        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaPedido a",Comanda.class).getResultList();
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaPedido a WHERE a.estadoAbierta=true",Comanda.class).getResultList();
         return comandas;
     }
     public List<Comanda> consultarComandasCerradas(){
-        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM ComandaPedido a WHERE a.estadoAbierta=true",Comanda.class).getResultList();
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a WHERE a.estadoAbierta=false",Comanda.class).getResultList();
         return comandas;
 
     }
