@@ -25,4 +25,5 @@ public interface INegocios {
     public List<Producto> consultarProductosBebidas();
     public List<Mesa> consultarMesas();
     public Mesa consultarMesa(Long numeroMesa);
+    public List<Comanda> consultarComandasEliminada();
 }

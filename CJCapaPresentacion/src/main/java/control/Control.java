@@ -15,6 +15,7 @@ import entidades.Producto;
 import entidades.TipoComida;
 import enums.TiposComanda;
 import static enums.TiposComanda.CERRADA;
+import static enums.TiposComanda.ELIMINADA;
 import static enums.TiposComanda.EXPRESS;
 import static enums.TiposComanda.MESA;
 import static enums.TiposComanda.PEDIDO;
@@ -89,6 +90,8 @@ public class Control {
                 return controlNegocio.consultarComandasMesa();
             case CERRADA:
                 return controlNegocio.consultarComandasCerrada();
+            case ELIMINADA:
+                return controlNegocio.consultarComandasEliminada();
         }
         return null;
     }
@@ -229,7 +232,8 @@ public class Control {
                 return obtenerTablaMesas();
             case CERRADA:
                 return obtenerTablaCerradas();
-
+            case ELIMINADA:
+                return obtenerTablaEliminadas();
         }
         
         return null;
@@ -246,6 +250,21 @@ public class Control {
             
             
             Object[] rowData = {obj.getId(), "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
+            model.addRow(rowData);
+        }
+        
+        return model;
+    }
+    public DefaultTableModel obtenerTablaEliminadas(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        List<Comanda> comandas = cargarComandas(ELIMINADA);
+        // Llenar la tabla con los objetos de la lista
+        
+        for (Comanda obj : comandas) {
+            
+            
+            Object[] rowData = {obj.getId()};
             model.addRow(rowData);
         }
         
@@ -348,12 +367,15 @@ public class Control {
     public void actualizarComanda(int tipoSeleccionado,long id) {
         if (validador.contieneProductos(productosComanda)) {
             if (tipoSeleccionado == TiposComanda.EXPRESS) {
-                controlNegocio.crearComanda(new ComandaExpress(), productosComanda);
-                volverInicio();
+                ComandaExpress comandaExpress = (ComandaExpress) controlNegocio.consultarComanda(id);
+                    comandaExpress.setComandaProductos(productosComanda);
+                controlNegocio.modificarComanda(comandaExpress);
             }
             if (tipoSeleccionado == TiposComanda.MESA) {
-                controlNegocio.crearComanda(new ComandaMesa(consultarMesaSeleccionada()), productosComanda);
-                volverInicio();
+                ComandaMesa comandaMesa = (ComandaMesa) controlNegocio.consultarComanda(id);
+                
+                    comandaMesa.setComandaProductos(productosComanda);
+                controlNegocio.modificarComanda(comandaMesa);
             }
             if (tipoSeleccionado == TiposComanda.PEDIDO) {
                 String direccion = vistaDireccion.getText(), nombreCliente = vistaNombreCliente.getText();
@@ -395,7 +417,12 @@ public class Control {
     }
     public void cerrarComanda(Comanda comanda)
     {
-        comanda.setEstadoAbierta(false);
+        comanda.setEstadoAbierta(0);
+        controlNegocio.modificarComanda(comanda);
+    }
+    public void eliminarComanda(Comanda comanda)
+    {
+        comanda.setEstadoAbierta(3);
         controlNegocio.modificarComanda(comanda);
     }
     public void pagarComanda()

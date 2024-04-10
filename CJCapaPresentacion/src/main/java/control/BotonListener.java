@@ -5,6 +5,10 @@
 package control;
 
 import entidades.Comanda;
+import entidades.ComandaExpress;
+import entidades.ComandaMesa;
+import entidades.ComandaPedido;
+import enums.TiposComanda;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -41,8 +45,26 @@ public class BotonListener extends MouseAdapter {
             if (value instanceof String && value.equals("/iconos/ic_editar_blanco.png")) {
                 
                 Comanda comanda = control.consultarComanda((Long) table.getValueAt(row, 0));
+                if(comanda instanceof ComandaPedido)
+                {
+                    Mediador.abrirFrmEditarComanda(TiposComanda.PEDIDO, comanda);
+                }
+                if(comanda instanceof ComandaMesa)
+                {
+                    Mediador.abrirFrmEditarComanda(TiposComanda.MESA, comanda);
+                }
+                if(comanda instanceof ComandaExpress)
+                {
+                    Mediador.abrirFrmEditarComanda(TiposComanda.EXPRESS, comanda);
+                }
+            }
+            if (value instanceof String && value.equals("/iconos/ic_eliminar_blanco.png")) {
                 
-                Mediador.abrirFrmEditarComanda(frm.getTipoComanda(), comanda);
+                Comanda comanda = control.consultarComanda((Long) table.getValueAt(row, 0));
+                control.eliminarComanda(comanda);
+                
+                frm.cargarPantalla(control.obtenerTablaComandas(frm.getTipoComanda()));
+                JOptionPane.showMessageDialog(null, "La comanda se elimino con exito: " + comanda.getId());
             }
             
         }

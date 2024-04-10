@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class ComandaExpress extends Comanda implements Serializable {
 
     public ComandaExpress() {
-        super(Calendar.getInstance(), false);
+        super(Calendar.getInstance(), 0);
     }
 
     @Override

@@ -8,13 +8,13 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-03-18T13:29:44", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-04-10T15:35:26", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Comanda.class)
 public class Comanda_ { 
 
     public static volatile SingularAttribute<Comanda, Calendar> fecha;
     public static volatile SingularAttribute<Comanda, Movimiento> movimiento;
-    public static volatile SingularAttribute<Comanda, Boolean> estadoAbierta;
+    public static volatile SingularAttribute<Comanda, Integer> estadoAbierta;
     public static volatile ListAttribute<Comanda, ComandaProducto> comandaProductos;
     public static volatile SingularAttribute<Comanda, Long> id;
 

@@ -93,6 +93,9 @@ public class FachadaDAO {
     public List<Comanda> consultarComandasCerradas(){
         return comandasDAO.consultarComandasCerradas();
     }
+    public List<Comanda> consultarComandasEliminadas(){
+        return comandasDAO.consultarComandasEliminadas();
+    }
     public List<Mesa> consultarMesas(){
         return mesasDAO.consultarMesas();
     }

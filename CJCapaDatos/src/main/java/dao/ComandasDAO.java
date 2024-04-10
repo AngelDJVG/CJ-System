@@ -50,7 +50,6 @@ public class ComandasDAO {
     public Comanda modificarComanda(Comanda comanda) {
         
         if (comanda != null) {
-            System.out.println(comanda.getDireccion());
             if (comanda.getId() != null) {
                 entityManager.getTransaction().begin();
                 System.out.println(comanda.getComandaProductos().get(0).getComanda().getId());
@@ -108,7 +107,13 @@ public class ComandasDAO {
         List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a WHERE a.estadoAbierta=false",Comanda.class).getResultList();
         return comandas;
 
+        
     }
      
+     public List<Comanda> consultarComandasEliminadas(){
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a WHERE a.estadoAbierta=3",Comanda.class).getResultList();
+        return comandas;
+
+    }
     
 }

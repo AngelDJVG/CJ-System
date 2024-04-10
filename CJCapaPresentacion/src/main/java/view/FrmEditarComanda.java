@@ -42,10 +42,11 @@ public class FrmEditarComanda extends javax.swing.JFrame {
      */
     public FrmEditarComanda(int tipoComanda,Comanda comanda) {
         this.comanda = comanda;
-        this.tipoComanda = tipoComanda;
         listaProductos = comanda.getComandaProductos();
         
         initComponents();
+        cbxTipo.setSelectedIndex(tipoComanda);
+        cbxTipo.setEnabled(false);
         controlAplicacion = new Control();
         controlAplicacion.establecerVistaTotal(lblDinero);
         controlAplicacion.agregarProductosComanda(listaProductos);
@@ -267,8 +268,7 @@ public class FrmEditarComanda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoItemStateChanged
-        int selectedIndex = cbxTipo.getSelectedIndex();
-        actualizarPanelFormulario(selectedIndex);
+        
         
     }//GEN-LAST:event_cbxTipoItemStateChanged
 

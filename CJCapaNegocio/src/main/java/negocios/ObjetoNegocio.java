@@ -81,6 +81,10 @@ public class ObjetoNegocio implements INegocios{
     {
         return controlComanda.consultarCerradas();
     }
+    public List<Comanda> consultarComandasEliminada()
+    {
+        return controlComanda.consultarEliminadas();
+    }
 
     @Override
     public Comanda consultarComanda(Long id) {

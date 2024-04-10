@@ -27,7 +27,7 @@ public class ComandaPedido extends Comanda implements Serializable {
     }
 
     public ComandaPedido(String direccion, String nombreCliente) {
-        super(Calendar.getInstance(), true);
+        super(Calendar.getInstance(), 1);
         this.direccion = direccion;
         this.nombreCliente = nombreCliente;
     }

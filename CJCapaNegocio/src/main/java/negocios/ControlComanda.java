@@ -51,6 +51,9 @@ public class ControlComanda {
     List<Comanda> consultarCerradas() {
         return fachadaDAO.consultarComandasCerradas();
     }
+    List<Comanda> consultarEliminadas() {
+        return fachadaDAO.consultarComandasEliminadas();
+    }
 
     Comanda consultarComanda(Long id) {
         return fachadaDAO.consultarComanda(id);

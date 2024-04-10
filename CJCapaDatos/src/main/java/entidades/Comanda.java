@@ -48,8 +48,8 @@ public class Comanda implements Serializable {
     @OneToOne(mappedBy = "comanda")
     private Movimiento movimiento;
     
-    @Column(name = "estadoAbierta", nullable = false)
-    private boolean estadoAbierta;
+    @Column(name = "estadoAbierta")
+    private int estadoAbierta;
     
     /*
     @ManyToMany
@@ -67,7 +67,7 @@ public class Comanda implements Serializable {
     public Comanda() {
     }
 
-    public Comanda(Calendar fecha, boolean estadoAbierta) {
+    public Comanda(Calendar fecha, int estadoAbierta) {
         this.fecha = fecha;
         this.estadoAbierta = estadoAbierta;
     }
@@ -114,11 +114,11 @@ public class Comanda implements Serializable {
         this.comandaProductos = comandaProductos;
     }
 
-    public boolean isEstadoAbierta() {
+    public int isEstadoAbierta() {
         return estadoAbierta;
     }
 
-    public void setEstadoAbierta(boolean estadoAbierta) {
+    public void setEstadoAbierta(int estadoAbierta) {
         this.estadoAbierta = estadoAbierta;
     }
 
