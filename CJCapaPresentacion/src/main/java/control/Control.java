@@ -247,8 +247,6 @@ public class Control {
         // Llenar la tabla con los objetos de la lista
         
         for (Comanda obj : comandas) {
-            
-            
             Object[] rowData = {obj.getId(), "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
             model.addRow(rowData);
         }
@@ -257,14 +255,19 @@ public class Control {
     }
     public DefaultTableModel obtenerTablaEliminadas(){
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("ID");
+        model.addColumn("Comandas");
         List<Comanda> comandas = cargarComandas(ELIMINADA);
         // Llenar la tabla con los objetos de la lista
         
         for (Comanda obj : comandas) {
-            
-            
-            Object[] rowData = {obj.getId()};
+            double total = 0;
+            String textoComandaEliminada = obj.getId()+", ";
+            for (ComandaProducto comandaProducto : obj.getComandaProductos()) {
+                total+= comandaProducto.getTotal();
+                textoComandaEliminada+= comandaProducto.toString() +", ";
+            }
+            textoComandaEliminada+=" | Total: "+total;
+            Object[] rowData = {textoComandaEliminada};
             model.addRow(rowData);
         }
         

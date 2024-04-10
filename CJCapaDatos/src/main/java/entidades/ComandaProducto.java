@@ -144,7 +144,7 @@ public class ComandaProducto implements Serializable {
 
     @Override
     public String toString() {
-        if (producto.getTipo().equals(TipoComida.BEBIDA)) {
+        if (producto.getTipo().equals(TipoComida.COMIDA)) {
             return String.format("%.1f %s %s", total,producto.getNombre(),detalles);
         }else{
             return String.format("%.1f %d %s", total,cantidad,producto.getNombre());

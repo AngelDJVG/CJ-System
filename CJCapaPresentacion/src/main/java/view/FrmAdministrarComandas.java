@@ -156,6 +156,7 @@ public class FrmAdministrarComandas extends javax.swing.JFrame {
         pnlOpciones.setPreferredSize(new java.awt.Dimension(710, 300));
         pnlOpciones.setLayout(new java.awt.GridLayout(1, 0));
 
+        tblComandas.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         tblComandas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
