@@ -30,6 +30,11 @@ public class ObjetoNegocio implements INegocios{
     public List<Comanda> consultarComandas() {
        return controlComanda.consultarComandas();
     }
+    
+    @Override
+    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda){
+        return controlComanda.consultarComandasAbiertasCerradas(tipoComanda);
+    }
 
     @Override
     public List<Comanda> consultarComandasExpress() {

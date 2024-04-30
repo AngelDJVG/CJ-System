@@ -81,6 +81,9 @@ public class FachadaDAO {
     public List<Comanda> consultarComandas(){
         return comandasDAO.consultarComandas();
     }
+    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda){
+        return comandasDAO.consultarComandasAbiertasCerradas(tipoComanda);
+    }
     public List<Comanda> consultarComandasExpress(){
         return comandasDAO.consultarComandasExpress();
     }

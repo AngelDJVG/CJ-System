@@ -14,5 +14,6 @@ public class TiposComanda {
     final public static int EXPRESS = 2;
     final public static int CERRADA = 3;
     final public static int ELIMINADA = 4;
+    final public static int TODAS = 5;
     
 }

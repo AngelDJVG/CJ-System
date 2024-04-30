@@ -11,7 +11,9 @@ import javax.swing.JOptionPane;
 import view.FrmAdministrarComandas;
 import view.FrmComandas;
 import view.FrmEditarComanda;
+import view.FrmPrincipal;
 import view.FrmRegistroComanda;
+import view.FrmReporteVentas;
 
 /**
  *
@@ -23,6 +25,8 @@ public class Mediador {
     private static FrmRegistroComanda frmRegistroComanda;
     private static FrmEditarComanda frmEditarComanda;
     private static FrmAdministrarComandas frmAdministrarComandas;
+    private static FrmPrincipal frmPrincipal;
+    private static FrmReporteVentas frmReporteVentas;
     private static Control control = new Control();
     
     public static void abrirFrmComandas(){
@@ -48,6 +52,17 @@ public class Mediador {
         frmAdministrarComandas = new FrmAdministrarComandas(control.obtenerTablaComandas(tipoComanda),tipoComanda);
         frmAdministrarComandas.setVisible(true);
     }
+    
+    public static void abrirFrmPrincipal(){
+        frmPrincipal = new FrmPrincipal();
+        frmPrincipal.setVisible(true);
+    }
+    
+    public static void abrirFrmReporteVentas(){
+        frmReporteVentas = new FrmReporteVentas(control);
+        frmReporteVentas.setVisible(true);
+    }
+    
     
     public static FrmRegistroComanda obtenerFrmRegistroComanda(){
         return frmRegistroComanda;

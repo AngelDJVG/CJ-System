@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface INegocios {
     public List<Comanda> consultarComandas();
+    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda);
     public List<Comanda> consultarComandasExpress();
     public List<Comanda> consultarComandasPedido();
     public List<Comanda> consultarComandasMesa();

@@ -46,7 +46,6 @@ public class FrmComandas extends javax.swing.JFrame {
         btnCrearComanda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 607));
         setMinimumSize(new java.awt.Dimension(800, 607));
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
@@ -153,6 +152,11 @@ public class FrmComandas extends javax.swing.JFrame {
         btnRegresar.setMaximumSize(new java.awt.Dimension(170, 60));
         btnRegresar.setMinimumSize(new java.awt.Dimension(170, 60));
         btnRegresar.setPreferredSize(new java.awt.Dimension(170, 60));
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
         pnlOperaciones.add(btnRegresar);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes_comandas/img_cerdito.png"))); // NOI18N
@@ -201,6 +205,11 @@ public class FrmComandas extends javax.swing.JFrame {
         this.dispose();
         Mediador.abrirFrmAdministrarComanda(CERRADA);
     }//GEN-LAST:event_btnCerradasActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        Mediador.abrirFrmPrincipal();
+        dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

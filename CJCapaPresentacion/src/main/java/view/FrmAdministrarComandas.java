@@ -4,28 +4,15 @@
  */
 package view;
 
-import componentes.BotonComandaProducto;
-import componentes.BotonEditor;
 import componentes.BotonRender;
 import control.BotonListener;
 import control.Mediador;
-import entidades.Comanda;
-import entidades.ComandaPedido;
-import enums.TiposComanda;
 import static enums.TiposComanda.CERRADA;
 import static enums.TiposComanda.ELIMINADA;
-import static enums.TiposComanda.EXPRESS;
 import static enums.TiposComanda.MESA;
 import static enums.TiposComanda.PEDIDO;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.util.List;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 /**
  *

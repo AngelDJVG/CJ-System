@@ -22,6 +22,10 @@ public class ControlComanda {
     public List<Comanda> consultarComandas(){
         return fachadaDAO.consultarComandas();
     }
+    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda){
+        return fachadaDAO.consultarComandasAbiertasCerradas(tipoComanda);
+    }
+    
     public List<Comanda> consultarComandasExpress(){
         return fachadaDAO.consultarComandasExpress();
 

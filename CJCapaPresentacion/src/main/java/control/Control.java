@@ -26,6 +26,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -37,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import negocios.ObjetoNegocio;
+import utilidades.ManejadorFechas;
 import utilidades.Validador;
 import view.JDLElegirProducto;
 
@@ -63,27 +65,26 @@ public class Control {
         return productosComanda;
     }
 
-    public void editarBebidaComanda(Integer cantidad){
+    public void editarBebidaComanda(Integer cantidad) {
         ultimoEventoProducto.setCantidad(cantidad);
         ultimoEventoProducto.cargarTotal();
-        
+
         this.calcularTotal();
         cargarComandasProductos(pnlComandasProducto);
     }
-    
-    public void editarComidaComanda(Integer cantidadPrecio, String detalles){
+
+    public void editarComidaComanda(Integer cantidadPrecio, String detalles) {
         ultimoEventoProducto.setCantidad(cantidadPrecio);
         ultimoEventoProducto.setDetalles(detalles);
-        
+
         ultimoEventoProducto.cargarTotal();
-        
+
         this.calcularTotal();
         cargarComandasProductos(pnlComandasProducto);
     }
-    public List<Comanda> cargarComandas(int tipoComanda)
-    {
-         switch(tipoComanda)
-        {
+
+    public List<Comanda> cargarComandas(int tipoComanda) {
+        switch (tipoComanda) {
             case PEDIDO:
                 return controlNegocio.consultarComandasPedido();
             case MESA:
@@ -95,7 +96,7 @@ public class Control {
         }
         return null;
     }
-    
+
     public void agregarBebidaComanda(Producto producto, Integer cantidad) {
         productosComanda.add(new ComandaProducto(producto, cantidad, "No se incluyeron detalles"));
 
@@ -108,9 +109,8 @@ public class Control {
         this.calcularTotal();
         cargarComandasProductos(pnlComandasProducto);
     }
-    
-    public void agregarProductosComanda(List<ComandaProducto> productosComanda)
-    {
+
+    public void agregarProductosComanda(List<ComandaProducto> productosComanda) {
         this.productosComanda = productosComanda;
     }
 
@@ -222,9 +222,9 @@ public class Control {
             return null;
         }
     }
-    public DefaultTableModel obtenerTablaComandas(int tipoComanda){
-        switch(tipoComanda)
-        {
+
+    public DefaultTableModel obtenerTablaComandas(int tipoComanda) {
+        switch (tipoComanda) {
             case PEDIDO:
                 return obtenerTablaPedidos();
 
@@ -235,45 +235,48 @@ public class Control {
             case ELIMINADA:
                 return obtenerTablaEliminadas();
         }
-        
+
         return null;
     }
-    public DefaultTableModel obtenerTablaCerradas(){
+
+    public DefaultTableModel obtenerTablaCerradas() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
         model.addColumn("Editar");
         model.addColumn("Eliminar");
         List<Comanda> comandas = cargarComandas(CERRADA);
         // Llenar la tabla con los objetos de la lista
-        
+
         for (Comanda obj : comandas) {
-            Object[] rowData = {obj.getId(), "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
+            Object[] rowData = {obj.getId(), "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
             model.addRow(rowData);
         }
-        
+
         return model;
     }
-    public DefaultTableModel obtenerTablaEliminadas(){
+
+    public DefaultTableModel obtenerTablaEliminadas() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Comandas");
         List<Comanda> comandas = cargarComandas(ELIMINADA);
         // Llenar la tabla con los objetos de la lista
-        
+
         for (Comanda obj : comandas) {
             double total = 0;
-            String textoComandaEliminada = obj.getId()+", ";
+            String textoComandaEliminada = obj.getId() + ", ";
             for (ComandaProducto comandaProducto : obj.getComandaProductos()) {
-                total+= comandaProducto.getTotal();
-                textoComandaEliminada+= comandaProducto.toString() +", ";
+                total += comandaProducto.getTotal();
+                textoComandaEliminada += comandaProducto.toString() + ", ";
             }
-            textoComandaEliminada+=" | Total: "+total;
+            textoComandaEliminada += " | Total: " + total;
             Object[] rowData = {textoComandaEliminada};
             model.addRow(rowData);
         }
-        
+
         return model;
     }
-    public DefaultTableModel obtenerTablaPedidos(){
+
+    public DefaultTableModel obtenerTablaPedidos() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
         model.addColumn("Direccion");
@@ -282,17 +285,18 @@ public class Control {
         model.addColumn("Eliminar");
         List<Comanda> comandas = cargarComandas(PEDIDO);
         // Llenar la tabla con los objetos de la lista
-        
+
         for (Comanda obj : comandas) {
-            
+
             ComandaPedido pedido = (ComandaPedido) obj;
-            Object[] rowData = {pedido.getId(),pedido.getDireccion(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
+            Object[] rowData = {pedido.getId(), pedido.getDireccion(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
             model.addRow(rowData);
         }
-        
+
         return model;
     }
-    public DefaultTableModel obtenerTablaMesas(){
+
+    public DefaultTableModel obtenerTablaMesas() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
         model.addColumn("Mesa");
@@ -301,17 +305,17 @@ public class Control {
         model.addColumn("Eliminar");
         List<Comanda> comandas = cargarComandas(MESA);
         // Llenar la tabla con los objetos de la lista
-        
+
         for (Comanda obj : comandas) {
-            
+
             ComandaMesa mesa = (ComandaMesa) obj;
-            Object[] rowData = {mesa.getId(),mesa.getMesa(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png","/iconos/ic_eliminar_blanco.png"};
+            Object[] rowData = {mesa.getId(), mesa.getMesa(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
             model.addRow(rowData);
         }
-        
+
         return model;
     }
-    
+
     public Mesa consultarMesaSeleccionada() {
         return (Mesa) this.cbxMesas.getSelectedItem();
     }
@@ -367,17 +371,18 @@ public class Control {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    public void actualizarComanda(int tipoSeleccionado,long id) {
+
+    public void actualizarComanda(int tipoSeleccionado, long id) {
         if (validador.contieneProductos(productosComanda)) {
             if (tipoSeleccionado == TiposComanda.EXPRESS) {
                 ComandaExpress comandaExpress = (ComandaExpress) controlNegocio.consultarComanda(id);
-                    comandaExpress.setComandaProductos(productosComanda);
+                comandaExpress.setComandaProductos(productosComanda);
                 controlNegocio.modificarComanda(comandaExpress);
             }
             if (tipoSeleccionado == TiposComanda.MESA) {
                 ComandaMesa comandaMesa = (ComandaMesa) controlNegocio.consultarComanda(id);
-                
-                    comandaMesa.setComandaProductos(productosComanda);
+
+                comandaMesa.setComandaProductos(productosComanda);
                 controlNegocio.modificarComanda(comandaMesa);
             }
             if (tipoSeleccionado == TiposComanda.PEDIDO) {
@@ -399,6 +404,7 @@ public class Control {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
     private void volverInicio() {
         mostrarMensaje("Se ha registrado la comanda", "Registro", JOptionPane.INFORMATION_MESSAGE);
         Mediador.cerrarFrmRegistroComanda();
@@ -412,25 +418,67 @@ public class Control {
     public void mostrarMensaje(String msj, String titulo, int tipoMensaje) {
         JOptionPane.showMessageDialog(null, msj, titulo, tipoMensaje);
     }
-    
-    public Comanda consultarComanda(Long id)
-    {
-        
+
+    public Comanda consultarComanda(Long id) {
+
         return controlNegocio.consultarComanda(id);
     }
-    public void cerrarComanda(Comanda comanda)
-    {
+
+    public void cerrarComanda(Comanda comanda) {
         comanda.setEstadoAbierta(0);
         controlNegocio.modificarComanda(comanda);
     }
-    public void eliminarComanda(Comanda comanda)
-    {
+
+    public void eliminarComanda(Comanda comanda) {
         comanda.setEstadoAbierta(3);
         controlNegocio.modificarComanda(comanda);
     }
-    public void pagarComanda()
-    {
+
+    public void pagarComanda() {
         JOptionPane.showMessageDialog(null, "PROCESANDO PAGO...", "Pago", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void cargarTablaComandas(int tipoComanda, JTable tablaComandas) {
+        List<Comanda> listaComandas = new ArrayList<>();
+            listaComandas = controlNegocio.consultarComandasAbiertasCerradas(tipoComanda);
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaComandas.getModel();
+        modeloTabla.setRowCount(0);
+        for (Comanda comanda : listaComandas) {
+
+            String tipoComandaString = obtenerTipoComandaAString(comanda);
+            //String nombreCliente = comanda.getMovimiento().getCliente().getNombre();
+            String fechaComanda = ManejadorFechas.formatearFecha(comanda.getFecha());
+            System.out.println(tipoComandaString +" "+fechaComanda);
+            Object[] fila = {tipoComandaString, fechaComanda, ("$ " + calcularTotalComanda(comanda) + " MX")};
+            modeloTabla.addRow(fila);
+        }
+    }
+
+    private String obtenerTipoComandaAString(Comanda comanda) {
+        if (comanda instanceof ComandaExpress) {
+            return "Express";
+        } else if (comanda instanceof ComandaPedido) {
+            return "Pedido";
+        } else if (comanda instanceof ComandaMesa) {
+            return "Mesas";
+        } else {
+            return "Desconocido";
+        }
+    }
+
+    private String calcularTotalComanda(Comanda comanda) {
+        List<ComandaProducto> listaComandasProducto = comanda.getComandaProductos();
+        double totalComanda = 0.0d;
+        for (ComandaProducto cp : listaComandasProducto) {
+            totalComanda += cp.getTotal();
+            
+        }
+
+        if (totalComanda == (int) totalComanda) {
+            return String.valueOf((int) totalComanda);
+        } else {
+            return String.valueOf(totalComanda);
+        }
+    }
 }

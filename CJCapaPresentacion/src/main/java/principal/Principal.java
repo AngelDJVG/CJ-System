@@ -4,7 +4,7 @@
 
 package principal;
 
-import view.FrmComandas;
+import control.Mediador;
 
 /**
  *
@@ -13,6 +13,6 @@ import view.FrmComandas;
 public class Principal {
 
     public static void main(String[] args) {
-        new FrmComandas().setVisible(true);
+        Mediador.abrirFrmPrincipal();
     }
 }
