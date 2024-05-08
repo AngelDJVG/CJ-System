@@ -24,4 +24,7 @@ public class ControlProducto {
     List<Producto> consultarProductosBebidas(){
        return fachadaDAO.consultarProductosBebidas();
     }
+    public List<Producto> consultarTodosProductos(){
+        return fachadaDAO.consultarTodosProductos();
+    }
 }

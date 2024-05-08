@@ -108,4 +108,7 @@ public class FachadaDAO {
     public List<Producto> consultarProductosBebidas(){
         return productosDAO.consultarProductosBebidas();
     }
+    public List<Producto> consultarTodosProductos(){
+        return productosDAO.consultarTodosProductos();
+    }
 }

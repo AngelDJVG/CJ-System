@@ -29,6 +29,7 @@ public interface IFachadaDAO {
     Producto eliminarProducto(Producto producto);
     List<Producto> consultarProductosAlimentos();
     List<Producto> consultarProductosBebidas();
+    List<Producto> consultarTodosProductos();
 
     // Métodos para Mesas
     Mesa registrarMesa(Mesa mesa);

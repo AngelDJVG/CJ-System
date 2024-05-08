@@ -481,4 +481,8 @@ public class Control {
             return String.valueOf(totalComanda);
         }
     }
+    
+    public void registrarProducto(Producto producto){
+        
+    }
 }

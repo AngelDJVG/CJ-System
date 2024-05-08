@@ -24,6 +24,7 @@ public interface INegocios {
     public Comanda eliminarComanda(Comanda comanda);
     public List<Producto> consultarProductosAlimentos();
     public List<Producto> consultarProductosBebidas();
+    public List<Producto> consultarTodosProductos();
     public List<Mesa> consultarMesas();
     public Mesa consultarMesa(Long numeroMesa);
     public List<Comanda> consultarComandasEliminada();

@@ -72,6 +72,10 @@ public class ObjetoNegocio implements INegocios{
     public List<Producto> consultarProductosBebidas() {
         return controlProducto.consultarProductosBebidas();
     }
+    @Override
+    public List<Producto> consultarTodosProductos(){
+        return controlProducto.consultarTodosProductos();
+    }
 
     @Override
     public List<Mesa> consultarMesas() {

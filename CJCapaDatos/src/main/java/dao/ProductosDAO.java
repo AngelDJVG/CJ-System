@@ -81,4 +81,8 @@ public class ProductosDAO {
         productosQuery.setParameter("tipo", TipoComida.BEBIDA);
         return productosQuery.getResultList();
     }
+    public List<Producto> consultarTodosProductos(){
+         TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a", Producto.class);
+         return productosQuery.getResultList();
+    }
 }
