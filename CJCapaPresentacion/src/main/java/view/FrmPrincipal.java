@@ -71,7 +71,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pnlBotones.setPreferredSize(new java.awt.Dimension(275, 240));
         pnlBotones.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 15));
 
-        btnComandas.setBackground(new java.awt.Color(255, 255, 255));
         btnComandas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnComandas.setForeground(new java.awt.Color(203, 95, 29));
         btnComandas.setText("Comandas");
@@ -87,7 +86,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         pnlBotones.add(btnComandas);
 
-        btnProductos.setBackground(new java.awt.Color(255, 255, 255));
         btnProductos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnProductos.setForeground(new java.awt.Color(203, 95, 29));
         btnProductos.setText("Productos");
@@ -96,9 +94,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnProductos.setMaximumSize(new java.awt.Dimension(200, 60));
         btnProductos.setMinimumSize(new java.awt.Dimension(200, 60));
         btnProductos.setPreferredSize(new java.awt.Dimension(200, 60));
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductosActionPerformed(evt);
+            }
+        });
         pnlBotones.add(btnProductos);
 
-        btnReporteVentas.setBackground(new java.awt.Color(255, 255, 255));
         btnReporteVentas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnReporteVentas.setForeground(new java.awt.Color(203, 95, 29));
         btnReporteVentas.setText("Reporte de ventas");
@@ -160,13 +162,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnReporteVentasActionPerformed
 
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProductosActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComandas;
-    private javax.swing.JButton btnCrearComanda;
     private javax.swing.JButton btnProductos;
-    private javax.swing.JButton btnRegresar;
-    private javax.swing.JButton btnRegresar1;
     private javax.swing.JButton btnReporteVentas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
