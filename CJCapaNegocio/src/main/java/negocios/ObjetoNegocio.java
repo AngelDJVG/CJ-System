@@ -5,6 +5,7 @@
 package negocios;
 
 import dao.FachadaDAO;
+import dto.ComandaDTO;
 import entidades.*;
 import interfaces.INegocios;
 import java.util.List;
@@ -32,8 +33,8 @@ public class ObjetoNegocio implements INegocios{
     }
     
     @Override
-    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda){
-        return controlComanda.consultarComandasAbiertasCerradas(tipoComanda);
+    public List<Comanda> consultarComandasPorFiltro(ComandaDTO filtro){
+        return controlComanda.consultarComandasPorFiltro(filtro);
     }
 
     @Override
@@ -98,5 +99,22 @@ public class ObjetoNegocio implements INegocios{
     @Override
     public Comanda consultarComanda(Long id) {
         return controlComanda.consultarComanda(id);
+    }
+
+    @Override
+    public Producto registrarProducto(Producto producto) {
+        return controlProducto.registrarProducto(producto);
+    }
+    @Override
+    public Producto eliminarProducto(Producto producto){
+        return controlProducto.eliminarProducto(producto);
+    }
+    @Override
+    public Producto consultarProductoNombre(String nombreProducto){
+        return controlProducto.consultarProductoNombre(nombreProducto);
+    }
+    @Override
+    public List<Producto> filtrarProductosPorNombre(String nombreProducto) {
+        return controlProducto.filtrarProductosPorNombre(nombreProducto);
     }
 }

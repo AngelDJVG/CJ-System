@@ -13,6 +13,7 @@ entidades\Comanda_.class
 entidades\TipoMovimiento.class
 entidades\TipoComida.class
 entidades\Cliente_.class
+dto\ComandaDTO.class
 entidades\Comanda.class
 entidades\ComandaProducto.class
 dao\MesasDAO.class

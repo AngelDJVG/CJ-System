@@ -5,6 +5,7 @@
 package negocios;
 
 import dao.FachadaDAO;
+import dto.ComandaDTO;
 import entidades.*;
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class ControlComanda {
     public List<Comanda> consultarComandas(){
         return fachadaDAO.consultarComandas();
     }
-    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda){
-        return fachadaDAO.consultarComandasAbiertasCerradas(tipoComanda);
+    public List<Comanda> consultarComandasPorFiltro(ComandaDTO filtro){
+        return fachadaDAO.consultarComandasPorFiltro(filtro);
     }
     
     public List<Comanda> consultarComandasExpress(){

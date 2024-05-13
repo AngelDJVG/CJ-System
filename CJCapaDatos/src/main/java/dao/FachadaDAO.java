@@ -4,6 +4,7 @@
  */
 package dao;
 
+import dto.ComandaDTO;
 import entidades.Comanda;
 import entidades.Mesa;
 import entidades.Producto;
@@ -54,13 +55,20 @@ public class FachadaDAO {
     public Producto consultarProducto(Long idProducto) {
         return productosDAO.consultarProducto(idProducto);
     }
-
+    
+    public Producto consultarProductoNombre(String nombreProducto){
+        return productosDAO.consultarProductoNombre(nombreProducto);
+    }
+    
     public Producto modificarProducto(Producto producto) {
         return productosDAO.modificarProducto(producto);
     }
 
     public Producto eliminarProducto(Producto producto) {
         return productosDAO.eliminarProducto(producto);
+    }
+    public List<Producto> filtrarProductosPorNombre(String nombreProducto) {
+        return productosDAO.filtrarProductosPorNombre(nombreProducto);
     }
 
     public Mesa registrarMesa(Mesa mesa) {
@@ -81,8 +89,8 @@ public class FachadaDAO {
     public List<Comanda> consultarComandas(){
         return comandasDAO.consultarComandas();
     }
-    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda){
-        return comandasDAO.consultarComandasAbiertasCerradas(tipoComanda);
+    public List<Comanda> consultarComandasPorFiltro(ComandaDTO filtro){
+        return comandasDAO.consultarComandasPorFiltro(filtro);
     }
     public List<Comanda> consultarComandasExpress(){
         return comandasDAO.consultarComandasExpress();

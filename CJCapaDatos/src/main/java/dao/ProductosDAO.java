@@ -9,6 +9,7 @@ import entidades.TipoComida;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -37,11 +38,11 @@ public class ProductosDAO {
         }
         return null;
     }
-    
-    public Producto consultarProducto(Long idProducto){
-        if(idProducto != null){
+
+    public Producto consultarProducto(Long idProducto) {
+        if (idProducto != null) {
             Producto productoBuscar = entityManager.find(Producto.class, idProducto);
-            if(productoBuscar != null){
+            if (productoBuscar != null) {
                 return productoBuscar;
             }
         }
@@ -59,7 +60,7 @@ public class ProductosDAO {
         }
         return null;
     }
-    
+
     public Producto eliminarProducto(Producto producto) {
         if (producto != null) {
             if (producto.getId() != null) {
@@ -71,18 +72,47 @@ public class ProductosDAO {
         }
         return null;
     }
-    public List<Producto> consultarProductosAlimentos(){
-        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo",Producto.class);
+
+    public List<Producto> consultarProductosAlimentos() {
+        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo", Producto.class);
         productosQuery.setParameter("tipo", TipoComida.COMIDA);
         return productosQuery.getResultList();
     }
-    public List<Producto> consultarProductosBebidas(){
-         TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo",Producto.class);
+
+    public List<Producto> consultarProductosBebidas() {
+        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo", Producto.class);
         productosQuery.setParameter("tipo", TipoComida.BEBIDA);
         return productosQuery.getResultList();
     }
-    public List<Producto> consultarTodosProductos(){
-         TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a", Producto.class);
-         return productosQuery.getResultList();
+
+    public List<Producto> consultarTodosProductos() {
+        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a", Producto.class);
+        return productosQuery.getResultList();
     }
+
+    public Producto consultarProductoNombre(String nombreProducto) {
+        if (nombreProducto != null && !nombreProducto.isEmpty()) {
+            Query query = entityManager.createQuery("SELECT p FROM Producto p WHERE LOWER(p.nombre) = LOWER(:nombre)");
+            query.setParameter("nombre", nombreProducto.toLowerCase());
+            query.setMaxResults(1);
+            List<Producto> resultados = query.getResultList();
+            if (!resultados.isEmpty()) {
+                return resultados.get(0);
+            }
+        }
+        return null;
+    }
+
+    public List<Producto> filtrarProductosPorNombre(String nombreProducto) {
+        Query query;
+        if (nombreProducto != null && !nombreProducto.isEmpty()) {
+            query = entityManager.createQuery("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE LOWER(:nombre)");
+            query.setParameter("nombre", "%" + nombreProducto.toLowerCase() + "%");
+        } else {
+            query = entityManager.createQuery("SELECT p FROM Producto p");
+        }
+        List<Producto> resultados = query.getResultList();
+        return resultados;
+    }
+
 }

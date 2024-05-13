@@ -51,16 +51,6 @@ public class Comanda implements Serializable {
     @Column(name = "estadoAbierta")
     private int estadoAbierta;
     
-    /*
-    @ManyToMany
-    @JoinTable(
-        name = "comanda_producto",
-        joinColumns = @JoinColumn(name = "id_comanda"),
-        inverseJoinColumns = @JoinColumn(name = "id_producto")
-    )
-    private List<Producto> productos;
-    */
-    
     @OneToMany(mappedBy = "comanda", cascade = CascadeType.ALL)
     private List<ComandaProducto> comandaProductos = new ArrayList<>();
     
@@ -95,16 +85,6 @@ public class Comanda implements Serializable {
     public void setMovimiento(Movimiento movimiento) {
         this.movimiento = movimiento;
     }
-
-    /*
-    public List<Producto> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
-    }
-    */
 
     public List<ComandaProducto> getComandaProductos() {
         return comandaProductos;
@@ -152,7 +132,5 @@ public class Comanda implements Serializable {
     public Object getDireccion() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
     
-
 }

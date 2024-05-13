@@ -163,7 +163,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReporteVentasActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        // TODO add your handling code here:
+        Mediador.abrirFrmProductos();
+        dispose();
     }//GEN-LAST:event_btnProductosActionPerformed
 
     

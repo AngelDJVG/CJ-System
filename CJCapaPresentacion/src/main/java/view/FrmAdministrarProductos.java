@@ -4,17 +4,27 @@
  */
 package view;
 
+import control.Control;
+import control.Mediador;
+import entidades.Producto;
+import entidades.TipoComida;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Zaurus
  */
 public class FrmAdministrarProductos extends javax.swing.JFrame {
 
+    private Control controlAplicacion;
+
     /**
      * Creates new form FrmAdministrarProductos
      */
     public FrmAdministrarProductos() {
         initComponents();
+        controlAplicacion = new Control();
+        controlAplicacion.cargarTablaProductos(txtBuscarProducto.getText(),tblProductos);
     }
 
     /**
@@ -42,12 +52,13 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         btnAgregarProducto = new javax.swing.JButton();
         pnlProductos = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblComandas = new javax.swing.JTable();
-        tfBuscar = new javax.swing.JTextField();
+        tblProductos = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        lblBuscar = new javax.swing.JLabel();
+        txtBuscarProducto = new javax.swing.JTextField();
         pnlOperaciones = new javax.swing.JPanel();
         btnRegresar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btnEliminadas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,14 +93,14 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         pnlOpciones.setMaximumSize(new java.awt.Dimension(710, 300));
         pnlOpciones.setMinimumSize(new java.awt.Dimension(710, 300));
         pnlOpciones.setPreferredSize(new java.awt.Dimension(710, 300));
-        pnlOpciones.setLayout(new java.awt.GridLayout());
+        pnlOpciones.setLayout(new java.awt.GridLayout(1, 0));
 
         pnlRegistro.setBackground(new java.awt.Color(255, 255, 255));
 
         lblTipo.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblTipo.setForeground(new java.awt.Color(203, 95, 29));
         lblTipo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTipo.setText("Tipo de Comanda");
+        lblTipo.setText("Tipo Alimento");
         lblTipo.setToolTipText("");
         lblTipo.setPreferredSize(new java.awt.Dimension(200, 27));
         lblTipo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -98,7 +109,7 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         cbxTipo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         cbxTipo.setForeground(new java.awt.Color(203, 95, 29));
         cbxTipo.setMaximumRowCount(3);
-        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pedido", "Mesa", "Express" }));
+        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Comida", "Bebida" }));
         cbxTipo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(203, 95, 29), 2, true));
         cbxTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cbxTipo.setMaximumSize(new java.awt.Dimension(250, 50));
@@ -128,6 +139,11 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNombre.setForeground(new java.awt.Color(203, 95, 29));
         txtNombre.setPreferredSize(new java.awt.Dimension(250, 40));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
         pnlRegistro.add(txtNombre);
 
         lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -142,6 +158,11 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         txtPrecio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtPrecio.setForeground(new java.awt.Color(203, 95, 29));
         txtPrecio.setPreferredSize(new java.awt.Dimension(250, 40));
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
         pnlRegistro.add(txtPrecio);
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(200, 10));
@@ -150,7 +171,7 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         btnAgregarProducto.setBackground(new java.awt.Color(51, 153, 0));
         btnAgregarProducto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregarProducto.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarProducto.setText("Agregar Producto");
+        btnAgregarProducto.setText("Registrar Producto");
         btnAgregarProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAgregarProducto.setMaximumSize(new java.awt.Dimension(170, 50));
         btnAgregarProducto.setMinimumSize(new java.awt.Dimension(170, 50));
@@ -166,36 +187,63 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
 
         pnlProductos.setLayout(new javax.swing.BoxLayout(pnlProductos, javax.swing.BoxLayout.Y_AXIS));
 
-        tblComandas.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
-        tblComandas.setModel(new javax.swing.table.DefaultTableModel(
+        tblProductos.setFont(new java.awt.Font("Segoe UI Emoji", 0, 12)); // NOI18N
+        tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tipo", "Nombre", "Precio", "", ""
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tblComandas.setFocusable(false);
-        jScrollPane1.setViewportView(tblComandas);
+        tblProductos.setFocusable(false);
+        jScrollPane1.setViewportView(tblProductos);
+        if (tblProductos.getColumnModel().getColumnCount() > 0) {
+            tblProductos.getColumnModel().getColumn(1).setMinWidth(100);
+            tblProductos.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblProductos.getColumnModel().getColumn(1).setMaxWidth(100);
+        }
 
         pnlProductos.add(jScrollPane1);
 
-        tfBuscar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        tfBuscar.setForeground(new java.awt.Color(203, 95, 29));
-        tfBuscar.setText("Buscar");
-        tfBuscar.setPreferredSize(new java.awt.Dimension(64, 40));
-        pnlProductos.add(tfBuscar);
+        jPanel1.setMaximumSize(new java.awt.Dimension(355, 40));
+        jPanel1.setMinimumSize(new java.awt.Dimension(355, 40));
+        jPanel1.setPreferredSize(new java.awt.Dimension(355, 40));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 8));
+
+        lblBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblBuscar.setText("Buscar:");
+        jPanel1.add(lblBuscar);
+
+        txtBuscarProducto.setMaximumSize(new java.awt.Dimension(280, 25));
+        txtBuscarProducto.setMinimumSize(new java.awt.Dimension(280, 25));
+        txtBuscarProducto.setPreferredSize(new java.awt.Dimension(280, 25));
+        txtBuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarProductoKeyReleased(evt);
+            }
+        });
+        jPanel1.add(txtBuscarProducto);
+
+        pnlProductos.add(jPanel1);
 
         pnlOpciones.add(pnlProductos);
 
@@ -205,7 +253,7 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         pnlOperaciones.setBorder(javax.swing.BorderFactory.createMatteBorder(10, 0, 0, 0, new java.awt.Color(203, 95, 29)));
         pnlOperaciones.setForeground(new java.awt.Color(255, 255, 255));
         pnlOperaciones.setPreferredSize(new java.awt.Dimension(710, 130));
-        pnlOperaciones.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 80, 50));
+        pnlOperaciones.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 80, 45));
 
         btnRegresar.setBackground(new java.awt.Color(203, 95, 29));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -225,34 +273,18 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes_comandas/img_cerdito.png"))); // NOI18N
         pnlOperaciones.add(jLabel1);
 
-        btnEliminadas.setBackground(new java.awt.Color(203, 95, 29));
-        btnEliminadas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnEliminadas.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminadas.setContentAreaFilled(false);
-        btnEliminadas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnEliminadas.setEnabled(false);
-        btnEliminadas.setMaximumSize(new java.awt.Dimension(170, 60));
-        btnEliminadas.setMinimumSize(new java.awt.Dimension(170, 60));
-        btnEliminadas.setPreferredSize(new java.awt.Dimension(170, 60));
-        btnEliminadas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminadasActionPerformed(evt);
-            }
-        });
-        pnlOperaciones.add(btnEliminadas);
-
         pnlFondo.add(pnlOperaciones);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 808, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 4, Short.MAX_VALUE)
                     .addComponent(pnlFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 4, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,71 +297,136 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        this.setVisible(false);
+        Mediador.cerrarFrmProductos();
+        Mediador.abrirFrmPrincipal();
     }//GEN-LAST:event_btnRegresarActionPerformed
-
-    private void btnEliminadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminadasActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnEliminadasActionPerformed
 
     private void cbxTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoItemStateChanged
 
     }//GEN-LAST:event_cbxTipoItemStateChanged
 
+    private void limpiarFormulario() {
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        txtBuscarProducto.setText("");
+    }
+
+    private Producto extraerDatos() {
+        if (!validarDatos()) {
+            return null;
+        }
+
+        TipoComida tipoComida;
+        if (cbxTipo.getSelectedItem().toString().equals("Comida")) {
+            tipoComida = TipoComida.COMIDA;
+        } else {
+            tipoComida = TipoComida.BEBIDA;
+        }
+
+        String nombre = txtNombre.getText().trim();
+        float precio = Float.parseFloat(txtPrecio.getText().trim());
+
+        Producto productoAGuardar = new Producto(tipoComida, nombre, precio);
+        return productoAGuardar;
+    }
+
     private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cbxTipoActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-
+        Producto producto = extraerDatos();
+        if (producto != null) {
+            Producto productoRegistrado = controlAplicacion.registrarProducto(producto);
+            if (productoRegistrado == null) {
+                Mediador.mostrarOptionPaneError(this, "Este producto ya existe");
+            } else {
+                limpiarFormulario();
+                controlAplicacion.cargarTablaProductos(txtBuscarProducto.getText(),tblProductos);
+                Mediador.mostrarOptionPaneExito(this, "Producto agregado con éxito");
+                
+            }
+        }
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmAdministrarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmAdministrarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmAdministrarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmAdministrarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        String texto = txtNombre.getText();
+        if (texto.length() >= 99) {
+            evt.consume();
         }
-        //</editor-fold>
+    }//GEN-LAST:event_txtNombreKeyTyped
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmAdministrarProductos().setVisible(true);
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || c == '.')) {
+            evt.consume();
+        }
+        if (c == '.' && txtPrecio.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    private void txtBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductoKeyReleased
+        controlAplicacion.cargarTablaProductos(txtBuscarProducto.getText(),tblProductos);
+    }//GEN-LAST:event_txtBuscarProductoKeyReleased
+
+    private boolean validarDatos() {
+        TipoComida tipoComida;
+        if (cbxTipo.getSelectedItem().toString().equals("Comida")) {
+            tipoComida = TipoComida.COMIDA;
+        } else {
+            tipoComida = TipoComida.BEBIDA;
+        }
+
+        String nombre = txtNombre.getText().trim();
+        String precioTexto = txtPrecio.getText().trim();
+
+        if (tipoComida == null) {
+            Mediador.mostrarOptionPaneError(this, "Por favor, seleccione un tipo de comida");
+            return false;
+        }
+
+        if (nombre.isEmpty()) {
+            Mediador.mostrarOptionPaneError(this, "Por favor, ingrese un nombre para el producto");
+            return false;
+        }
+
+        if (nombre.length() > 99) {
+            Mediador.mostrarOptionPaneError(this, "El nombre del producto no puede exceder los 99 caracteres");
+            return false;
+        }
+
+        float precio;
+        try {
+            precio = Float.parseFloat(precioTexto);
+            if (precio <= 0) {
+                throw new NumberFormatException();
             }
-        });
+            if (precio > Float.MAX_VALUE) {
+                Mediador.mostrarOptionPaneError(this, "El precio del producto es demasiado grande");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            Mediador.mostrarOptionPaneError(this, "Por favor, ingrese un precio válido para el producto");
+            return false;
+        }
+
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProducto;
-    private javax.swing.JButton btnEliminadas;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPrecio;
     private javax.swing.JLabel lblTipo;
@@ -340,8 +437,8 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
     private javax.swing.JPanel pnlProductos;
     private javax.swing.JPanel pnlRegistro;
     private javax.swing.JPanel pnlTitulo;
-    private javax.swing.JTable tblComandas;
-    private javax.swing.JTextField tfBuscar;
+    private javax.swing.JTable tblProductos;
+    private javax.swing.JTextField txtBuscarProducto;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables

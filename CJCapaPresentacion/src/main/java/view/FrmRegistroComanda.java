@@ -5,6 +5,7 @@
 package view;
 
 import control.Control;
+import control.Mediador;
 import entidades.Comanda;
 import entidades.ComandaExpress;
 import entidades.ComandaMesa;
@@ -74,6 +75,8 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         pnlPedidos = new javax.swing.JPanel();
         lblDato = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -246,6 +249,29 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
 
         pnlFondo.add(pnlCentralComanda);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMaximumSize(new java.awt.Dimension(710, 50));
+        jPanel1.setMinimumSize(new java.awt.Dimension(710, 50));
+        jPanel1.setPreferredSize(new java.awt.Dimension(710, 50));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        btnRegresar.setBackground(new java.awt.Color(203, 95, 29));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegresar.setText("Regresar");
+        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegresar.setMaximumSize(new java.awt.Dimension(170, 40));
+        btnRegresar.setMinimumSize(new java.awt.Dimension(170, 40));
+        btnRegresar.setPreferredSize(new java.awt.Dimension(170, 40));
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegresar);
+
+        pnlFondo.add(jPanel1);
+
         getContentPane().add(pnlFondo);
 
         pack();
@@ -266,6 +292,11 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         controlAplicacion.registrarComanda(cbxTipo.getSelectedIndex());
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        Mediador.cerrarFrmRegistroComanda();
+        Mediador.abrirFrmComandas();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     public void actualizarPanelFormulario(int tipoComanda) {
        
@@ -364,7 +395,9 @@ public class FrmRegistroComanda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cbxTipo;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblDato;

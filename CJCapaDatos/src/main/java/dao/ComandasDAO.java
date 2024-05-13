@@ -1,10 +1,12 @@
 package dao;
 
+import dto.ComandaDTO;
 import entidades.Comanda;
 import entidades.ComandaProducto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 /**
@@ -88,18 +90,37 @@ public class ComandasDAO {
         return comandas;
     }
 
-    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda) {
-        String query;
-        query = switch (tipoComanda) {
-            case 0 -> "SELECT c FROM ComandaPedido c";
-            case 1 -> "SELECT c FROM ComandaMesa c";
-            case 2 -> "SELECT c FROM ComandaExpress c";
-            case 5 -> "SELECT c FROM Comanda c";
-            default -> "SELECT c FROM Comanda c";
-        }; 
+    public List<Comanda> consultarComandasPorFiltro(ComandaDTO filtro) {
+        String query = switch (filtro.getTipoComanda()) {
+            case 0 ->
+                "SELECT c FROM ComandaPedido c";
+            case 1 ->
+                "SELECT c FROM ComandaMesa c";
+            case 2 ->
+                "SELECT c FROM ComandaExpress c";
+            default ->
+                "SELECT c FROM Comanda c";
+        };
+
+        query += " JOIN c.comandaProductos cp";
+
+        if (filtro.getDesde() != null) {
+            query += " WHERE c.fecha >= :desde";
+        }
+        if (filtro.getHasta() != null) {
+            query += (query.contains("WHERE") ? " AND" : " WHERE") + " c.fecha <= :hasta";
+        }
+
         TypedQuery<Comanda> typedQuery = entityManager.createQuery(query, Comanda.class);
-        List<Comanda> comandas = typedQuery.getResultList();
-        return comandas;
+
+        if (filtro.getDesde() != null) {
+            typedQuery.setParameter("desde", filtro.getDesde(), TemporalType.DATE);
+        }
+        if (filtro.getHasta() != null) {
+            typedQuery.setParameter("hasta", filtro.getHasta(), TemporalType.DATE);
+        }
+
+        return typedQuery.getResultList();
     }
 
     public List<Comanda> consultarComandasExpress() {

@@ -18,6 +18,15 @@ public class ControlProducto {
     public ControlProducto(FachadaDAO fachadaDAO){
         this.fachadaDAO = fachadaDAO;
     }
+    public Producto registrarProducto(Producto producto){
+        return fachadaDAO.registrarProducto(producto);
+    }
+    public Producto eliminarProducto(Producto producto){
+        return fachadaDAO.eliminarProducto(producto);
+    }
+    public Producto consultarProducto(){
+        return fachadaDAO.consultarProducto(Long.MIN_VALUE);
+    }
     List<Producto> consultarProductosAlimentos(){
        return fachadaDAO.consultarProductosAlimentos();
     } 
@@ -27,4 +36,12 @@ public class ControlProducto {
     public List<Producto> consultarTodosProductos(){
         return fachadaDAO.consultarTodosProductos();
     }
+    public Producto consultarProductoNombre(String nombreProducto){
+        return fachadaDAO.consultarProductoNombre(nombreProducto);
+    }
+    
+    public List<Producto> filtrarProductosPorNombre(String nombreProducto){
+        return fachadaDAO.filtrarProductosPorNombre(nombreProducto);
+    }
+    
 }

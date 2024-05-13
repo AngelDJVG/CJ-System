@@ -4,6 +4,7 @@
  */
 package interfaces;
 
+import dto.ComandaDTO;
 import entidades.*;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface INegocios {
     public List<Comanda> consultarComandas();
-    public List<Comanda> consultarComandasAbiertasCerradas(int tipoComanda);
+    public List<Comanda> consultarComandasPorFiltro(ComandaDTO filtro);
     public List<Comanda> consultarComandasExpress();
     public List<Comanda> consultarComandasPedido();
     public List<Comanda> consultarComandasMesa();
@@ -28,4 +29,8 @@ public interface INegocios {
     public List<Mesa> consultarMesas();
     public Mesa consultarMesa(Long numeroMesa);
     public List<Comanda> consultarComandasEliminada();
+    public Producto registrarProducto(Producto producto);
+    public Producto eliminarProducto(Producto producto);
+    public Producto consultarProductoNombre(String nombreProducto);
+    public List<Producto> filtrarProductosPorNombre(String nombreProducto);
 }

@@ -6,8 +6,11 @@ package view;
 
 import control.Control;
 import control.Mediador;
+import dto.ComandaDTO;
 import enums.TiposComanda;
 import java.awt.event.ItemEvent;
+import java.time.LocalDate;
+import java.util.Calendar;
 
 /**
  *
@@ -16,11 +19,15 @@ import java.awt.event.ItemEvent;
 public class FrmReporteVentas extends javax.swing.JFrame {
 
     private Control controlAplicacion;
+    private ComandaDTO comandaDTO;
 
     public FrmReporteVentas(Control control) {
         initComponents();
         this.controlAplicacion = control;
-        controlAplicacion.cargarTablaComandas(TiposComanda.TODAS, tblComandas);
+        comandaDTO = new ComandaDTO();
+        comandaDTO.setTipoComanda(TiposComanda.TODAS);
+        controlAplicacion.cargarTablaComandas(comandaDTO, tblComandas);
+
     }
 
     /**
@@ -41,9 +48,11 @@ public class FrmReporteVentas extends javax.swing.JFrame {
         pnlTipo = new javax.swing.JPanel();
         lblTipo = new javax.swing.JLabel();
         cbxTipoComanda = new javax.swing.JComboBox<>();
-        pnlNombre = new javax.swing.JPanel();
-        lblNombre = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        pnlFechas = new javax.swing.JPanel();
+        lblDesde = new javax.swing.JLabel();
+        dpDesde = new com.github.lgooddatepicker.components.DatePicker();
+        lblHasta = new javax.swing.JLabel();
+        dpHasta = new com.github.lgooddatepicker.components.DatePicker();
         btnFiltrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblComandas = new javax.swing.JTable();
@@ -113,55 +122,62 @@ public class FrmReporteVentas extends javax.swing.JFrame {
 
         pnlFiltros.add(pnlTipo);
 
-        pnlNombre.setMaximumSize(new java.awt.Dimension(170, 60));
-        pnlNombre.setMinimumSize(new java.awt.Dimension(170, 60));
-        pnlNombre.setPreferredSize(new java.awt.Dimension(170, 60));
+        pnlFechas.setMaximumSize(new java.awt.Dimension(280, 90));
+        pnlFechas.setMinimumSize(new java.awt.Dimension(280, 90));
+        pnlFechas.setPreferredSize(new java.awt.Dimension(280, 60));
+        pnlFechas.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 6));
 
-        lblNombre.setText("Nombre del cliente");
-        pnlNombre.add(lblNombre);
+        lblDesde.setText("Desde");
+        lblDesde.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        pnlFechas.add(lblDesde);
 
-        txtNombre.setMaximumSize(new java.awt.Dimension(150, 25));
-        txtNombre.setMinimumSize(new java.awt.Dimension(150, 25));
-        txtNombre.setPreferredSize(new java.awt.Dimension(150, 25));
-        pnlNombre.add(txtNombre);
+        dpDesde.setMaximumSize(new java.awt.Dimension(190, 20));
+        dpDesde.setMinimumSize(new java.awt.Dimension(190, 20));
+        dpDesde.setPreferredSize(new java.awt.Dimension(190, 20));
+        pnlFechas.add(dpDesde);
 
-        pnlFiltros.add(pnlNombre);
+        lblHasta.setText("Hasta");
+        lblHasta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        pnlFechas.add(lblHasta);
 
-        btnFiltrar.setBackground(new java.awt.Color(203, 95, 29));
-        btnFiltrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnFiltrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnFiltrar.setText("Filtrar");
-        btnFiltrar.setMaximumSize(new java.awt.Dimension(80, 30));
-        btnFiltrar.setMinimumSize(new java.awt.Dimension(80, 30));
-        btnFiltrar.setPreferredSize(new java.awt.Dimension(80, 30));
+        dpHasta.setMaximumSize(new java.awt.Dimension(190, 20));
+        dpHasta.setMinimumSize(new java.awt.Dimension(190, 20));
+        dpHasta.setPreferredSize(new java.awt.Dimension(190, 20));
+        pnlFechas.add(dpHasta);
+
+        pnlFiltros.add(pnlFechas);
+
+        btnFiltrar.setText("Buscar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
         pnlFiltros.add(btnFiltrar);
 
         pnlOpciones.add(pnlFiltros);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(452, 220));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(452, 220));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(452, 220));
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(520, 220));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(520, 220));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(520, 220));
 
-        tblComandas.setBackground(new java.awt.Color(255, 255, 255));
-        tblComandas.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
-        tblComandas.setForeground(new java.awt.Color(0, 0, 0));
         tblComandas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Tipo de Comanda", "Fecha", "Total"
+                "Tipo de Comanda", "Producto", "Fecha", "Precio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -172,13 +188,17 @@ public class FrmReporteVentas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblComandas.setBackground(new java.awt.Color(255, 255, 255));
         tblComandas.setFocusable(false);
+        tblComandas.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
+        tblComandas.setForeground(new java.awt.Color(0, 0, 0));
         tblComandas.setRowHeight(30);
         jScrollPane1.setViewportView(tblComandas);
         if (tblComandas.getColumnModel().getColumnCount() > 0) {
             tblComandas.getColumnModel().getColumn(0).setResizable(false);
             tblComandas.getColumnModel().getColumn(1).setResizable(false);
             tblComandas.getColumnModel().getColumn(2).setResizable(false);
+            tblComandas.getColumnModel().getColumn(3).setResizable(false);
         }
 
         pnlOpciones.add(jScrollPane1);
@@ -248,9 +268,52 @@ public class FrmReporteVentas extends javax.swing.JFrame {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             String seleccion = (String) cbxTipoComanda.getSelectedItem();
             int tipoComanda = obtenerTipoComandaCbx(seleccion);
-            controlAplicacion.cargarTablaComandas(tipoComanda, tblComandas);
+            comandaDTO.setTipoComanda(tipoComanda);
+            cargarComandas();
         }
     }//GEN-LAST:event_cbxTipoComandaItemStateChanged
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+
+        if (extraerFechaDesde() != null) {
+            comandaDTO.setDesde(extraerFechaDesde());
+        }
+        if (extraerFechaHasta() != null) {
+            comandaDTO.setHasta(extraerFechaHasta());
+        }
+
+        cargarComandas();
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private Calendar extraerFechaDesde() {
+        if (dpDesde == null || dpDesde.getText().trim().equals("")) {
+            comandaDTO.setDesde(null);
+
+            return null;
+        }
+        LocalDate localDate = dpDesde.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth());
+        return calendar;
+    }
+
+    private Calendar extraerFechaHasta() {
+        if (dpHasta == null || dpHasta.getText().trim().equals("")) {
+                comandaDTO.setHasta(null);
+            
+            return null;
+        }
+        LocalDate localDate = dpHasta.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth());
+        return calendar;
+    }
+
+    private void cargarComandas() {
+        controlAplicacion.cargarTablaComandas(comandaDTO, tblComandas);
+    }
 
     private int obtenerTipoComandaCbx(String seleccion) {
         int tipoComanda;
@@ -277,19 +340,21 @@ public class FrmReporteVentas extends javax.swing.JFrame {
     private javax.swing.JButton btnGenerarPdf;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cbxTipoComanda;
+    private com.github.lgooddatepicker.components.DatePicker dpDesde;
+    private com.github.lgooddatepicker.components.DatePicker dpHasta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblDesde;
+    private javax.swing.JLabel lblHasta;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel pnlFechas;
     private javax.swing.JPanel pnlFiltros;
     private javax.swing.JPanel pnlFondo;
-    private javax.swing.JPanel pnlNombre;
     private javax.swing.JPanel pnlOpciones;
     private javax.swing.JPanel pnlOperaciones;
     private javax.swing.JPanel pnlTipo;
     private javax.swing.JPanel pnlTitulo;
     private javax.swing.JTable tblComandas;
-    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

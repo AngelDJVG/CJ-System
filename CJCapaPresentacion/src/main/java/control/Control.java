@@ -5,6 +5,7 @@
 package control;
 
 import componentes.BotonComandaProducto;
+import dto.ComandaDTO;
 import entidades.Comanda;
 import entidades.ComandaExpress;
 import entidades.ComandaMesa;
@@ -27,7 +28,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -438,20 +441,23 @@ public class Control {
         JOptionPane.showMessageDialog(null, "PROCESANDO PAGO...", "Pago", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void cargarTablaComandas(int tipoComanda, JTable tablaComandas) {
-        List<Comanda> listaComandas = new ArrayList<>();
-            listaComandas = controlNegocio.consultarComandasAbiertasCerradas(tipoComanda);
-        
+    public void cargarTablaComandas(ComandaDTO filtro, JTable tablaComandas) {
+        List<Comanda> listaComandas = controlNegocio.consultarComandasPorFiltro(filtro);
         DefaultTableModel modeloTabla = (DefaultTableModel) tablaComandas.getModel();
         modeloTabla.setRowCount(0);
-        for (Comanda comanda : listaComandas) {
+        Set<ComandaProducto> productosUnicos = new HashSet<>();
 
+        for (Comanda comanda : listaComandas) {
             String tipoComandaString = obtenerTipoComandaAString(comanda);
-            //String nombreCliente = comanda.getMovimiento().getCliente().getNombre();
             String fechaComanda = ManejadorFechas.formatearFecha(comanda.getFecha());
-            System.out.println(tipoComandaString +" "+fechaComanda);
-            Object[] fila = {tipoComandaString, fechaComanda, ("$ " + calcularTotalComanda(comanda) + " MX")};
-            modeloTabla.addRow(fila);
+
+            for (ComandaProducto p : comanda.getComandaProductos()) {
+                if (!productosUnicos.contains(p)) {
+                    Object[] fila = {tipoComandaString, p.getProducto().getNombre(), fechaComanda, ("$ " + p.getProducto().getPrecio())};
+                    modeloTabla.addRow(fila);
+                    productosUnicos.add(p);
+                }
+            }
         }
     }
 
@@ -472,7 +478,7 @@ public class Control {
         double totalComanda = 0.0d;
         for (ComandaProducto cp : listaComandasProducto) {
             totalComanda += cp.getTotal();
-            
+
         }
 
         if (totalComanda == (int) totalComanda) {
@@ -481,8 +487,33 @@ public class Control {
             return String.valueOf(totalComanda);
         }
     }
-    
-    public void registrarProducto(Producto producto){
-        
+
+    public Producto registrarProducto(Producto producto) {
+        Producto productoAux = controlNegocio.consultarProductoNombre(producto.getNombre());
+        if (productoAux != null) {
+            if ((producto.getNombre().toLowerCase().equals(productoAux.getNombre().toLowerCase())) && productoAux.getTipo().equals(producto.getTipo())) {
+                return null;
+            } else {
+                controlNegocio.registrarProducto(producto);
+                return producto;
+            }
+        } else {
+            controlNegocio.registrarProducto(producto);
+            return producto;
+        }
+    }
+
+    public void cargarTablaProductos(String nombreFiltro, JTable tablaProductos) {
+        List<Producto> listaProductos = controlNegocio.filtrarProductosPorNombre(nombreFiltro);
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductos.getModel();
+        modeloTabla.setRowCount(0);
+
+        for (Producto producto : listaProductos) {
+            String tipoProducto = producto.getTipo().toString();
+            String nombreProducto = producto.getNombre();
+            double precio = producto.getPrecio();
+            Object[] fila = {tipoProducto, nombreProducto, (precio)};
+            modeloTabla.addRow(fila);
+        }
     }
 }

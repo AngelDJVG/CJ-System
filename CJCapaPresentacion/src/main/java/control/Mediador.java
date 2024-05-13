@@ -9,6 +9,7 @@ import enums.TiposComanda;
 import java.awt.Component;
 import javax.swing.JOptionPane;
 import view.FrmAdministrarComandas;
+import view.FrmAdministrarProductos;
 import view.FrmComandas;
 import view.FrmEditarComanda;
 import view.FrmPrincipal;
@@ -27,6 +28,7 @@ public class Mediador {
     private static FrmAdministrarComandas frmAdministrarComandas;
     private static FrmPrincipal frmPrincipal;
     private static FrmReporteVentas frmReporteVentas;
+    private static FrmAdministrarProductos frmAdministrarProductos;
     private static Control control = new Control();
     
     public static void abrirFrmComandas(){
@@ -36,6 +38,14 @@ public class Mediador {
     
     public static void cerrarFrmComandas(){
         frmComandas.dispose();
+    }
+    
+    public static void abrirFrmProductos(){
+        frmAdministrarProductos = new FrmAdministrarProductos();
+        frmAdministrarProductos.setVisible(true);
+    }
+    public static void cerrarFrmProductos(){
+        frmAdministrarProductos.setVisible(false);
     }
     
     public static void abrirFrmRegistroComanda(){
@@ -78,5 +88,8 @@ public class Mediador {
     
     public static void mostrarOptionPaneAviso(Component component, String mensaje){
         JOptionPane.showMessageDialog(component, mensaje, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public static void mostrarOptionPaneExito(Component component, String mensaje){
+        JOptionPane.showMessageDialog(component, mensaje, "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 }

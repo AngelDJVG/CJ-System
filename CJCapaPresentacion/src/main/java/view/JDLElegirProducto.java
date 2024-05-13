@@ -95,7 +95,7 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         btnAlimentos = new javax.swing.JButton();
         btnBebidas = new javax.swing.JButton();
         pnlContenedorTabla = new javax.swing.JPanel();
-        scroll = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         tblProductos = new javax.swing.JTable();
         pnlContenedorDetalles = new javax.swing.JPanel();
         lblPrecio = new javax.swing.JLabel();
@@ -106,7 +106,6 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         btnAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(500, 620));
         setMinimumSize(new java.awt.Dimension(500, 620));
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
@@ -175,43 +174,32 @@ public class JDLElegirProducto extends javax.swing.JDialog {
         pnlContenedorTabla.setPreferredSize(new java.awt.Dimension(390, 332));
         pnlContenedorTabla.setLayout(new javax.swing.BoxLayout(pnlContenedorTabla, javax.swing.BoxLayout.LINE_AXIS));
 
-        tblProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
                 "Nombre", "Precio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
+                java.lang.String.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
-        tblProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblProductos.setMaximumSize(new java.awt.Dimension(200, 80));
-        tblProductos.setMinimumSize(new java.awt.Dimension(200, 80));
-        tblProductos.setPreferredSize(new java.awt.Dimension(200, 80));
-        scroll.setViewportView(tblProductos);
+        jScrollPane1.setViewportView(tblProductos);
         if (tblProductos.getColumnModel().getColumnCount() > 0) {
             tblProductos.getColumnModel().getColumn(0).setResizable(false);
-            tblProductos.getColumnModel().getColumn(0).setPreferredWidth(190);
             tblProductos.getColumnModel().getColumn(1).setResizable(false);
-            tblProductos.getColumnModel().getColumn(1).setPreferredWidth(190);
         }
 
-        pnlContenedorTabla.add(scroll);
+        pnlContenedorTabla.add(jScrollPane1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -561,6 +549,7 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     private javax.swing.JButton btnBebidas;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCambiable;
     private javax.swing.JLabel lblPrecio;
     private javax.swing.JLabel lblTitulo;
@@ -569,7 +558,6 @@ public class JDLElegirProducto extends javax.swing.JDialog {
     private javax.swing.JPanel pnlContenedorTabla;
     private javax.swing.JPanel pnlFondo;
     private javax.swing.JPanel pnlTitulo;
-    private javax.swing.JScrollPane scroll;
     private javax.swing.JTable tblProductos;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables

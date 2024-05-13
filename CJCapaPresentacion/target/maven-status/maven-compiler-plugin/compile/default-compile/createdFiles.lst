@@ -2,6 +2,7 @@ view\FrmAdministrarComandas$1.class
 view\FrmAdministrarProductos$1.class
 view\FrmRegistroComanda$3.class
 view\JDLElegirProducto$1.class
+view\FrmAdministrarProductos$8.class
 view\FrmReporteVentas$1.class
 view\FrmReporteVentas$4.class
 view\FrmAdministrarProductos$4.class
@@ -41,12 +42,14 @@ view\FrmReporteVentas$3.class
 view\FrmComandas$1.class
 view\FrmComandas.class
 view\FrmAdministrarProductos$6.class
+view\FrmRegistroComanda$4.class
 utilidades\Validador.class
 view\FrmEditarComanda$2.class
 view\FrmAdministrarProductos$7.class
 view\FrmEditarComanda$4.class
 componentes\BotonRender.class
 view\FrmComandas$3.class
+view\FrmReporteVentas$5.class
 control\Control$2.class
 view\JDLElegirProducto$4.class
 view\FrmRegistroComanda$1.class
