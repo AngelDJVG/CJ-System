@@ -9,7 +9,6 @@ view\FrmAdministrarProductos$4.class
 view\FrmPrincipal$1.class
 view\FrmAdministrarComandas.class
 control\Mediador.class
-componentes\BotonEditor.class
 view\JDLElegirProducto$5.class
 view\FrmEditarComanda.class
 control\Control$3.class
@@ -18,6 +17,7 @@ view\FrmPrincipal$2.class
 view\FrmPrincipal.class
 view\JDLElegirProducto$2.class
 view\JDLElegirProducto.class
+componentes\ButtonEditor.class
 view\FrmComandas$2.class
 view\FrmAdministrarProductos$5.class
 view\FrmAdministrarProductos$2.class

@@ -24,6 +24,9 @@ public class ControlProducto {
     public Producto eliminarProducto(Producto producto){
         return fachadaDAO.eliminarProducto(producto);
     }
+    public Producto modificarProducto(Producto producto){
+        return fachadaDAO.modificarProducto(producto);
+    }
     public Producto consultarProducto(){
         return fachadaDAO.consultarProducto(Long.MIN_VALUE);
     }

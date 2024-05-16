@@ -5,6 +5,8 @@
 package control;
 
 import componentes.BotonComandaProducto;
+import componentes.BotonRender;
+import componentes.ButtonEditor;
 import dto.ComandaDTO;
 import entidades.Comanda;
 import entidades.ComandaExpress;
@@ -33,6 +35,7 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,6 +46,7 @@ import javax.swing.table.DefaultTableModel;
 import negocios.ObjetoNegocio;
 import utilidades.ManejadorFechas;
 import utilidades.Validador;
+import view.FrmAdministrarProductos;
 import view.JDLElegirProducto;
 
 /**
@@ -63,6 +67,8 @@ public class Control {
 
     private INegocios controlNegocio = new ObjetoNegocio();
     private Validador validador = new Validador();
+    
+    private FrmAdministrarProductos frmAdministrarProductos;
 
     public List<ComandaProducto> obtenerProductosComandaAgregados() {
         return productosComanda;
@@ -248,7 +254,6 @@ public class Control {
         model.addColumn("Editar");
         model.addColumn("Eliminar");
         List<Comanda> comandas = cargarComandas(CERRADA);
-        // Llenar la tabla con los objetos de la lista
 
         for (Comanda obj : comandas) {
             Object[] rowData = {obj.getId(), "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
@@ -262,7 +267,6 @@ public class Control {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Comandas");
         List<Comanda> comandas = cargarComandas(ELIMINADA);
-        // Llenar la tabla con los objetos de la lista
 
         for (Comanda obj : comandas) {
             double total = 0;
@@ -287,7 +291,6 @@ public class Control {
         model.addColumn("Editar");
         model.addColumn("Eliminar");
         List<Comanda> comandas = cargarComandas(PEDIDO);
-        // Llenar la tabla con los objetos de la lista
 
         for (Comanda obj : comandas) {
 
@@ -307,7 +310,6 @@ public class Control {
         model.addColumn("Editar");
         model.addColumn("Eliminar");
         List<Comanda> comandas = cargarComandas(MESA);
-        // Llenar la tabla con los objetos de la lista
 
         for (Comanda obj : comandas) {
 
@@ -426,6 +428,10 @@ public class Control {
 
         return controlNegocio.consultarComanda(id);
     }
+    public Producto consultarProducto(String nombre) {
+
+        return controlNegocio.consultarProductoNombre(nombre);
+    }
 
     public void cerrarComanda(Comanda comanda) {
         comanda.setEstadoAbierta(0);
@@ -436,7 +442,10 @@ public class Control {
         comanda.setEstadoAbierta(3);
         controlNegocio.modificarComanda(comanda);
     }
-
+    public void eliminarProducto(Producto producto) {
+        producto.setEstado(false);
+        controlNegocio.modificarProducto(producto);
+    }
     public void pagarComanda() {
         JOptionPane.showMessageDialog(null, "PROCESANDO PAGO...", "Pago", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -491,29 +500,58 @@ public class Control {
     public Producto registrarProducto(Producto producto) {
         Producto productoAux = controlNegocio.consultarProductoNombre(producto.getNombre());
         if (productoAux != null) {
-            if ((producto.getNombre().toLowerCase().equals(productoAux.getNombre().toLowerCase())) && productoAux.getTipo().equals(producto.getTipo())) {
-                return null;
-            } else {
-                controlNegocio.registrarProducto(producto);
-                return producto;
-            }
+            return null;
         } else {
             controlNegocio.registrarProducto(producto);
             return producto;
         }
     }
 
-    public void cargarTablaProductos(String nombreFiltro, JTable tablaProductos) {
-        List<Producto> listaProductos = controlNegocio.filtrarProductosPorNombre(nombreFiltro);
-        DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductos.getModel();
-        modeloTabla.setRowCount(0);
+  public void cargarTablaProductos() {
+    String nombreFiltro = frmAdministrarProductos.getNombreFiltro();
+    JTable tablaProductos = frmAdministrarProductos.getTabla();
+    List<Producto> listaProductos = controlNegocio.filtrarProductosPorNombre(nombreFiltro);
 
-        for (Producto producto : listaProductos) {
+    DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductos.getModel();
+    modeloTabla.setRowCount(0);
+
+    String[] nombresColumnas = {"Tipo", "Nombre", "Precio","Editar", "Eliminar"};
+    modeloTabla.setColumnIdentifiers(nombresColumnas);
+    
+    tablaProductos.getColumn("Eliminar").setCellRenderer(new BotonRender());
+    tablaProductos.getColumn("Eliminar").setCellEditor(new ButtonEditor(new JCheckBox()));
+    tablaProductos.getColumn("Editar").setCellRenderer(new BotonRender());
+    tablaProductos.getColumn("Editar").setCellEditor(new ButtonEditor(new JCheckBox()));
+    for (Producto producto : listaProductos) {
+        if (producto.getEstado()) {
             String tipoProducto = producto.getTipo().toString();
             String nombreProducto = producto.getNombre();
             double precio = producto.getPrecio();
-            Object[] fila = {tipoProducto, nombreProducto, (precio)};
+            Object[] fila = {
+                tipoProducto,
+                nombreProducto,
+                precio,
+                new javax.swing.ImageIcon(getClass().getResource("/iconos/ic_editar_blanco.png")),
+                new javax.swing.ImageIcon(getClass().getResource("/iconos/ic_eliminar_blanco.png"))
+            };
             modeloTabla.addRow(fila);
         }
     }
+}
+
+   public void modificarProducto(Producto producto)
+   {
+       controlNegocio.modificarProducto(producto);
+   }
+          
+   public void asignarFrmAdministrarProductos(FrmAdministrarProductos frmAdministrarProductos)
+   {
+       this.frmAdministrarProductos = frmAdministrarProductos;
+   }
+   public void editarProducto(Producto producto)
+   {
+       frmAdministrarProductos.editar(producto);
+   }
+ 
+
 }

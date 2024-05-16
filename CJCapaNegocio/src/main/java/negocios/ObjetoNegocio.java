@@ -114,6 +114,10 @@ public class ObjetoNegocio implements INegocios{
         return controlProducto.consultarProductoNombre(nombreProducto);
     }
     @Override
+    public Producto modificarProducto(Producto producto){
+        return controlProducto.modificarProducto(producto);
+    }
+    @Override
     public List<Producto> filtrarProductosPorNombre(String nombreProducto) {
         return controlProducto.filtrarProductosPorNombre(nombreProducto);
     }

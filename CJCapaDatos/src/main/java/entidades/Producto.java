@@ -33,14 +33,27 @@ public class Producto implements Serializable {
 
     @Column(name = "precio", nullable = false)
     private double precio;
-
+    
+    
+    @Column(name = "estado", nullable = false)
+    private boolean estado;
     public Producto() {
+        this.estado = true;
     }
 
     public Producto(TipoComida tipo, String nombre, double precio) {
         this.tipo = tipo;
         this.nombre = nombre;
         this.precio = precio;
+        this.estado = true;
+    }
+
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     public Long getId() {

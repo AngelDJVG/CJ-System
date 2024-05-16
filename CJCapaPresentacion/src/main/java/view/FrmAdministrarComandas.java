@@ -25,7 +25,6 @@ public class FrmAdministrarComandas extends javax.swing.JFrame {
      */
     private int tipoComanda;
     public FrmAdministrarComandas(DefaultTableModel model,int tipoComanda) {
-        // Crear un modelo de tabla
         this.tipoComanda = tipoComanda;
         initComponents();
         
@@ -50,18 +49,18 @@ public class FrmAdministrarComandas extends javax.swing.JFrame {
                 tblComandas.setRowHeight(40);
                 tblComandas.setBackground(Color.decode("#CB5F1D"));
                 lblTitulo.setText("Comandas - Pedidos");
-                tblComandas.getColumnModel().getColumn(2).setCellRenderer(new BotonRender(""));
-                tblComandas.getColumnModel().getColumn(3).setCellRenderer(new BotonRender(""));
-                tblComandas.getColumnModel().getColumn(4).setCellRenderer(new BotonRender(""));
+                tblComandas.getColumnModel().getColumn(2).setCellRenderer(new BotonRender());
+                tblComandas.getColumnModel().getColumn(3).setCellRenderer(new BotonRender());
+                tblComandas.getColumnModel().getColumn(4).setCellRenderer(new BotonRender());
                 tblComandas.addMouseListener(new BotonListener(tblComandas,this));
             break;
             case MESA:
                 lblTitulo.setText("Comandas - Mesas");
                 tblComandas.setRowHeight(40);
                 tblComandas.setBackground(Color.decode("#CB5F1D"));
-                tblComandas.getColumnModel().getColumn(2).setCellRenderer(new BotonRender(""));
-                tblComandas.getColumnModel().getColumn(3).setCellRenderer(new BotonRender(""));
-                tblComandas.getColumnModel().getColumn(4).setCellRenderer(new BotonRender("/iconos/ic_informacion.png"));
+                tblComandas.getColumnModel().getColumn(2).setCellRenderer(new BotonRender());
+                tblComandas.getColumnModel().getColumn(3).setCellRenderer(new BotonRender());
+                tblComandas.getColumnModel().getColumn(4).setCellRenderer(new BotonRender());
                 tblComandas.addMouseListener(new BotonListener(tblComandas,this));
             break;
             case CERRADA:
@@ -69,8 +68,8 @@ public class FrmAdministrarComandas extends javax.swing.JFrame {
                 lblTitulo.setText("Comandas - Cerradas");
                 tblComandas.setRowHeight(40);
                 tblComandas.setBackground(Color.decode("#CB5F1D"));
-                tblComandas.getColumnModel().getColumn(1).setCellRenderer(new BotonRender("/iconos/ic_informacion.png"));
-                tblComandas.getColumnModel().getColumn(2).setCellRenderer(new BotonRender("/iconos/ic_informacion.png"));
+                tblComandas.getColumnModel().getColumn(1).setCellRenderer(new BotonRender());
+                tblComandas.getColumnModel().getColumn(2).setCellRenderer(new BotonRender());
                 tblComandas.addMouseListener(new BotonListener(tblComandas,this));
                 
             break;

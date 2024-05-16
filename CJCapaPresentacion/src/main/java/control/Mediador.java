@@ -29,7 +29,7 @@ public class Mediador {
     private static FrmPrincipal frmPrincipal;
     private static FrmReporteVentas frmReporteVentas;
     private static FrmAdministrarProductos frmAdministrarProductos;
-    private static Control control = new Control();
+    public static Control control = new Control();
     
     public static void abrirFrmComandas(){
         frmComandas = new FrmComandas();

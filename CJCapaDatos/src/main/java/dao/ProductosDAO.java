@@ -74,19 +74,19 @@ public class ProductosDAO {
     }
 
     public List<Producto> consultarProductosAlimentos() {
-        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo", Producto.class);
+        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo AND a.estado = true", Producto.class);
         productosQuery.setParameter("tipo", TipoComida.COMIDA);
         return productosQuery.getResultList();
     }
 
     public List<Producto> consultarProductosBebidas() {
-        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo", Producto.class);
+        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a WHERE a.tipo= :tipo AND a.estado = true", Producto.class);
         productosQuery.setParameter("tipo", TipoComida.BEBIDA);
         return productosQuery.getResultList();
     }
 
     public List<Producto> consultarTodosProductos() {
-        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT a FROM Producto a", Producto.class);
+        TypedQuery<Producto> productosQuery = entityManager.createQuery("SELECT p FROM Producto p WHERE p.estado = true", Producto.class);
         return productosQuery.getResultList();
     }
 
@@ -106,10 +106,10 @@ public class ProductosDAO {
     public List<Producto> filtrarProductosPorNombre(String nombreProducto) {
         Query query;
         if (nombreProducto != null && !nombreProducto.isEmpty()) {
-            query = entityManager.createQuery("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE LOWER(:nombre)");
+            query = entityManager.createQuery("SELECT p FROM Producto p WHERE LOWER(p.nombre) LIKE :nombre AND p.estado = true");
             query.setParameter("nombre", "%" + nombreProducto.toLowerCase() + "%");
         } else {
-            query = entityManager.createQuery("SELECT p FROM Producto p");
+            query = entityManager.createQuery("SELECT p FROM Producto p WHERE p.estado = true");
         }
         List<Producto> resultados = query.getResultList();
         return resultados;

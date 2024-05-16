@@ -33,4 +33,5 @@ public interface INegocios {
     public Producto eliminarProducto(Producto producto);
     public Producto consultarProductoNombre(String nombreProducto);
     public List<Producto> filtrarProductosPorNombre(String nombreProducto);
+    public Producto modificarProducto(Producto producto);
 }

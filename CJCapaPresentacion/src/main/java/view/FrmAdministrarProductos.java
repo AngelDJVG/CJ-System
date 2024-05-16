@@ -4,11 +4,22 @@
  */
 package view;
 
+import componentes.BotonRender;
+import componentes.ButtonEditor;
+import control.BotonListener;
 import control.Control;
 import control.Mediador;
 import entidades.Producto;
 import entidades.TipoComida;
+import static enums.TiposComanda.CERRADA;
+import static enums.TiposComanda.ELIMINADA;
+import static enums.TiposComanda.MESA;
+import static enums.TiposComanda.PEDIDO;
+import java.awt.Color;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,17 +27,47 @@ import javax.swing.JOptionPane;
  */
 public class FrmAdministrarProductos extends javax.swing.JFrame {
 
-    private Control controlAplicacion;
 
     /**
      * Creates new form FrmAdministrarProductos
      */
     public FrmAdministrarProductos() {
         initComponents();
-        controlAplicacion = new Control();
-        controlAplicacion.cargarTablaProductos(txtBuscarProducto.getText(),tblProductos);
-    }
+        
+        Mediador.control.asignarFrmAdministrarProductos(this);
+        cargarPantalla();
+        lblPrecio.setText("Precio x Kilo");
 
+        
+    }
+ 
+    public void cargarPantalla()
+    {
+        
+        Mediador.control.cargarTablaProductos();
+        tblProductos.setRowHeight(40);
+        tblProductos.setBackground(Color.decode("#CB5F1D"));
+    }
+    public String getNombreFiltro()
+    {
+        return txtBuscarProducto.getText();
+    }
+    public JTable getTabla()
+    {
+        return tblProductos;
+    }
+    public void editar(Producto producto)
+    {
+        txtNombre.setText(producto.getNombre());
+        txtPrecio.setText(""+producto.getPrecio());
+        if(producto.getTipo() == TipoComida.COMIDA)
+        {
+            cbxTipo.setSelectedIndex(0);
+        }else{
+            cbxTipo.setSelectedIndex(1);
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -203,7 +244,7 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -335,18 +376,33 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
     }
 
     private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
-
+        String tipoSeleccionado = (String) cbxTipo.getSelectedItem();
+    
+        switch (tipoSeleccionado) {
+            case "Comida":
+                lblPrecio.setText("Precio x Kilo");
+                break;
+            case "Bebida":
+                lblPrecio.setText("Precio x Unidad");
+                break;
+            default:
+                break;
+        }
     }//GEN-LAST:event_cbxTipoActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
         Producto producto = extraerDatos();
         if (producto != null) {
-            Producto productoRegistrado = controlAplicacion.registrarProducto(producto);
+            Producto productoRegistrado = Mediador.control.registrarProducto(producto);
             if (productoRegistrado == null) {
-                Mediador.mostrarOptionPaneError(this, "Este producto ya existe");
+                producto.setEstado(true);
+                producto.setId(Mediador.control.consultarProducto(producto.getNombre()).getId()); 
+                Mediador.control.modificarProducto(producto);
+                limpiarFormulario();
+                cargarPantalla();
             } else {
                 limpiarFormulario();
-                controlAplicacion.cargarTablaProductos(txtBuscarProducto.getText(),tblProductos);
+                cargarPantalla();
                 Mediador.mostrarOptionPaneExito(this, "Producto agregado con éxito");
                 
             }
@@ -371,7 +427,7 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecioKeyTyped
 
     private void txtBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductoKeyReleased
-        controlAplicacion.cargarTablaProductos(txtBuscarProducto.getText(),tblProductos);
+        Mediador.control.cargarTablaProductos();
     }//GEN-LAST:event_txtBuscarProductoKeyReleased
 
     private boolean validarDatos() {
