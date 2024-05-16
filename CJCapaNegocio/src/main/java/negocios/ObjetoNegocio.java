@@ -6,8 +6,10 @@ package negocios;
 
 import dao.FachadaDAO;
 import dto.ComandaDTO;
+import dto.ComandaProductoDTO;
 import entidades.*;
 import interfaces.INegocios;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ public class ObjetoNegocio implements INegocios{
     private ControlComanda controlComanda;
     private ControlProducto controlProducto;
     private ControlMesa controlMesa;
+    private ControlComandaProducto controlComandaProducto;
             
     private FachadaDAO fachadaDAO;
     public ObjetoNegocio(){
@@ -25,6 +28,7 @@ public class ObjetoNegocio implements INegocios{
         controlComanda = new ControlComanda(fachadaDAO);
         controlProducto = new ControlProducto(fachadaDAO);
         controlMesa = new ControlMesa(fachadaDAO);
+        controlComandaProducto = new ControlComandaProducto(fachadaDAO);
     }
 
     @Override
@@ -120,5 +124,10 @@ public class ObjetoNegocio implements INegocios{
     @Override
     public List<Producto> filtrarProductosPorNombre(String nombreProducto) {
         return controlProducto.filtrarProductosPorNombre(nombreProducto);
+    }
+
+    @Override
+    public List<ComandaProductoDTO> consultarProductosVendidos(Calendar fechaInicio, Calendar fechaFin, int tipoComanda) {
+        return controlComandaProducto.consultarProductosVendidos(fechaInicio, fechaFin, tipoComanda);
     }
 }

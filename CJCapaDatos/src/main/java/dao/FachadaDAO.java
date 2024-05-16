@@ -5,9 +5,11 @@
 package dao;
 
 import dto.ComandaDTO;
+import dto.ComandaProductoDTO;
 import entidades.Comanda;
 import entidades.Mesa;
 import entidades.Producto;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -24,12 +26,14 @@ public class FachadaDAO {
     private ComandasDAO comandasDAO;
     private ProductosDAO productosDAO;
     private MesasDAO mesasDAO;
+    private ComandaProductoDAO comandaProductoDAO;
 
     public FachadaDAO() {
         EntityManager entityManager = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
         this.comandasDAO = new ComandasDAO(entityManager);
         this.productosDAO = new ProductosDAO(entityManager);
         this.mesasDAO = new MesasDAO(entityManager);
+        this.comandaProductoDAO = new ComandaProductoDAO(entityManager);
     }
 
     public Comanda registrarComanda(Comanda comanda) {
@@ -119,4 +123,9 @@ public class FachadaDAO {
     public List<Producto> consultarTodosProductos(){
         return productosDAO.consultarTodosProductos();
     }
+    
+    public List<ComandaProductoDTO> consultarProductosVendidos(Calendar fechaInicio, Calendar fechaFin, int tipoComanda){
+        return comandaProductoDAO.consultarProductosVendidos(fechaInicio, fechaFin, tipoComanda);
+    }
+    
 }

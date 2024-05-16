@@ -5,7 +5,9 @@
 package interfaces;
 
 import dto.ComandaDTO;
+import dto.ComandaProductoDTO;
 import entidades.*;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -34,4 +36,5 @@ public interface INegocios {
     public Producto consultarProductoNombre(String nombreProducto);
     public List<Producto> filtrarProductosPorNombre(String nombreProducto);
     public Producto modificarProducto(Producto producto);
+    public List<ComandaProductoDTO> consultarProductosVendidos(Calendar fechaInicio, Calendar fechaFin, int tipoComanda);
 }

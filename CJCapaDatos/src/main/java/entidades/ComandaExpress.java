@@ -21,13 +21,8 @@ import javax.persistence.Table;
 public class ComandaExpress extends Comanda implements Serializable {
 
     public ComandaExpress() {
+        super(Calendar.getInstance(), 0);  
         
-        super(Calendar.getInstance(), 0); // Llama al constructor de la clase base con la fecha actual y un valor inicial de 0
-        // Modificar la fecha para que sea del año pasado
-        Calendar fecha = Calendar.getInstance();
-        fecha.add(Calendar.YEAR, -1);
-        // Establecer la fecha del año pasado
-        super.setFecha(fecha);
     }
 
     @Override

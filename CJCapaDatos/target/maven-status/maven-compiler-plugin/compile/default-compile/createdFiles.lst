@@ -3,6 +3,7 @@ entidades\Producto_.class
 dao\ComandasDAO.class
 dao\IFachadaDAO.class
 entidades\Gasto.class
+dao\ComandaProductoDAO.class
 entidades\Mesa.class
 entidades\ComandaProducto_.class
 entidades\ComandaMesa_.class
@@ -27,3 +28,4 @@ dao\FachadaDAO.class
 entidades\Cliente.class
 entidades\ComandaPedido_.class
 entidades\ComandaExpress_.class
+dto\ComandaProductoDTO.class

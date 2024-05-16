@@ -4,7 +4,9 @@
  */
 package dao;
 
+import dto.ComandaProductoDTO;
 import entidades.*;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -37,4 +39,6 @@ public interface IFachadaDAO {
     Mesa modificarMesa(Mesa mesa);
     Mesa eliminarMesa(Mesa mesa);
     List<Mesa> consultarMesas();
+    
+    List<ComandaProductoDTO> consultarProductosVendidos(Calendar fechaInicio, Calendar fechaFin, int tipoComanda);
 }

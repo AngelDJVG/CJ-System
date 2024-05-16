@@ -27,7 +27,6 @@ public class FrmReporteVentas extends javax.swing.JFrame {
         comandaDTO = new ComandaDTO();
         comandaDTO.setTipoComanda(TiposComanda.TODAS);
         controlAplicacion.cargarTablaComandas(comandaDTO, tblComandas);
-
     }
 
     /**
@@ -109,7 +108,8 @@ public class FrmReporteVentas extends javax.swing.JFrame {
         lblTipo.setText("Tipo de comanda");
         pnlTipo.add(lblTipo);
 
-        cbxTipoComanda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Express", "Pedidos", "Mesas" }));
+        cbxTipoComanda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pedidos", "Mesas", "Express", "Todas" }));
+        cbxTipoComanda.setSelectedIndex(3);
         cbxTipoComanda.setMaximumSize(new java.awt.Dimension(150, 25));
         cbxTipoComanda.setMinimumSize(new java.awt.Dimension(150, 25));
         cbxTipoComanda.setPreferredSize(new java.awt.Dimension(150, 25));
@@ -164,20 +164,20 @@ public class FrmReporteVentas extends javax.swing.JFrame {
 
         tblComandas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Tipo de Comanda", "Producto", "Fecha", "Precio"
+                "Cantidad", "Producto", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -188,17 +188,14 @@ public class FrmReporteVentas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblComandas.setBackground(new java.awt.Color(255, 255, 255));
         tblComandas.setFocusable(false);
         tblComandas.setFont(new java.awt.Font("Segoe UI Emoji", 0, 14)); // NOI18N
-        tblComandas.setForeground(new java.awt.Color(0, 0, 0));
         tblComandas.setRowHeight(30);
         jScrollPane1.setViewportView(tblComandas);
         if (tblComandas.getColumnModel().getColumnCount() > 0) {
             tblComandas.getColumnModel().getColumn(0).setResizable(false);
             tblComandas.getColumnModel().getColumn(1).setResizable(false);
             tblComandas.getColumnModel().getColumn(2).setResizable(false);
-            tblComandas.getColumnModel().getColumn(3).setResizable(false);
         }
 
         pnlOpciones.add(jScrollPane1);
@@ -213,11 +210,11 @@ public class FrmReporteVentas extends javax.swing.JFrame {
         pnlOperaciones.setPreferredSize(new java.awt.Dimension(710, 100));
         pnlOperaciones.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 80, 15));
 
+        btnRegresar.setText("Regresar");
         btnRegresar.setBackground(new java.awt.Color(203, 95, 29));
+        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegresar.setText("Regresar");
-        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRegresar.setMaximumSize(new java.awt.Dimension(170, 60));
         btnRegresar.setMinimumSize(new java.awt.Dimension(170, 60));
         btnRegresar.setPreferredSize(new java.awt.Dimension(170, 60));
@@ -231,11 +228,11 @@ public class FrmReporteVentas extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes_comandas/img_cerdito.png"))); // NOI18N
         pnlOperaciones.add(jLabel1);
 
+        btnGenerarPdf.setText("Mostrar PDF");
         btnGenerarPdf.setBackground(new java.awt.Color(203, 95, 29));
+        btnGenerarPdf.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGenerarPdf.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnGenerarPdf.setForeground(new java.awt.Color(255, 255, 255));
-        btnGenerarPdf.setText("Mostrar PDF");
-        btnGenerarPdf.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGenerarPdf.setMaximumSize(new java.awt.Dimension(170, 60));
         btnGenerarPdf.setMinimumSize(new java.awt.Dimension(170, 60));
         btnGenerarPdf.setPreferredSize(new java.awt.Dimension(170, 60));
@@ -260,8 +257,7 @@ public class FrmReporteVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGenerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPdfActionPerformed
-        this.dispose();
-        Mediador.abrirFrmPrincipal();
+        controlAplicacion.mostrarReporte(comandaDTO);
     }//GEN-LAST:event_btnGenerarPdfActionPerformed
 
     private void cbxTipoComandaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTipoComandaItemStateChanged
