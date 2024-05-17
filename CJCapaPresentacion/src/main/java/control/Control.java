@@ -253,12 +253,22 @@ public class Control {
     public DefaultTableModel obtenerTablaCerradas() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID");
+        model.addColumn("Comanda");
         model.addColumn("Editar");
         model.addColumn("Eliminar");
         List<Comanda> comandas = cargarComandas(CERRADA);
 
         for (Comanda obj : comandas) {
-            Object[] rowData = {obj.getId(), "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
+            String tipoComanda = obtenerTipoComandaAString(obj);
+            String descripcionComanda = "Express";
+            if (tipoComanda.equals("Mesas")) {
+                ComandaMesa comanda = (ComandaMesa) obj;
+                descripcionComanda = "Mesa " + comanda.getMesa().getNumero();
+            } else if (tipoComanda.equals("Pedido")) {
+                ComandaPedido comanda = (ComandaPedido) obj;
+                descripcionComanda = comanda.getDireccion();
+            }
+            Object[] rowData = {obj.getId(), descripcionComanda, "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
             model.addRow(rowData);
         }
 

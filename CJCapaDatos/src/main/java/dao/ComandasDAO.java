@@ -139,9 +139,8 @@ public class ComandasDAO {
     }
 
     public List<Comanda> consultarComandasCerradas() {
-        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a WHERE a.estadoAbierta=false", Comanda.class).getResultList();
+        List<Comanda> comandas = entityManager.createQuery("SELECT a FROM Comanda a WHERE a.estadoAbierta=false AND a.fecha = CURRENT_DATE", Comanda.class).getResultList();
         return comandas;
-
     }
 
     public List<Comanda> consultarComandasEliminadas() {

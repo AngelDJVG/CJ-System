@@ -58,6 +58,7 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
     }
     public void editar(Producto producto)
     {
+        btnAgregarProducto.setText("Actualizar Producto");
         txtNombre.setText(producto.getNombre());
         txtPrecio.setText(""+producto.getPrecio());
         if(producto.getTipo() == TipoComida.COMIDA)
@@ -404,8 +405,8 @@ public class FrmAdministrarProductos extends javax.swing.JFrame {
                 limpiarFormulario();
                 cargarPantalla();
                 Mediador.mostrarOptionPaneExito(this, "Producto agregado con éxito");
-                
             }
+            btnAgregarProducto.setText("Registrar Producto");
         }
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
