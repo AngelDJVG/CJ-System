@@ -48,6 +48,9 @@ public class Mediador {
         frmAdministrarProductos.setVisible(false);
     }
     
+    public static void cerrarFrmAdministrarComandas(){
+      frmAdministrarComandas.dispose();
+    }
     public static void abrirFrmRegistroComanda(){
         frmRegistroComanda = new FrmRegistroComanda();
         frmRegistroComanda.setVisible(true);

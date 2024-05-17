@@ -268,7 +268,7 @@ public class Control {
                 ComandaPedido comanda = (ComandaPedido) obj;
                 descripcionComanda = comanda.getDireccion();
             }
-            Object[] rowData = {obj.getId(), descripcionComanda, "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
+            Object[] rowData = {obj.getId(), descripcionComanda,  new javax.swing.ImageIcon(getClass().getResource( "/iconos/ic_editar_blanco.png")),  new javax.swing.ImageIcon(getClass().getResource("/iconos/ic_eliminar_blanco.png"))};
             model.addRow(rowData);
         }
 
@@ -307,7 +307,9 @@ public class Control {
         for (Comanda obj : comandas) {
 
             ComandaPedido pedido = (ComandaPedido) obj;
-            Object[] rowData = {pedido.getId(), pedido.getDireccion(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
+             Object[] rowData = {pedido.getId(), pedido.getDireccion(), new javax.swing.ImageIcon(getClass().getResource( "/iconos/ic_cerrar.png")),new javax.swing.ImageIcon(getClass().getResource("/iconos/ic_editar_blanco.png")), new javax.swing.ImageIcon(getClass().getResource("/iconos/ic_eliminar_blanco.png"))};
+
+            
             model.addRow(rowData);
         }
 
@@ -326,7 +328,7 @@ public class Control {
         for (Comanda obj : comandas) {
 
             ComandaMesa mesa = (ComandaMesa) obj;
-            Object[] rowData = {mesa.getId(), mesa.getMesa(), "/iconos/ic_cerrar.png", "/iconos/ic_editar_blanco.png", "/iconos/ic_eliminar_blanco.png"};
+            Object[] rowData = {mesa.getId(), mesa.getMesa(), new javax.swing.ImageIcon(getClass().getResource( "/iconos/ic_cerrar.png")),new javax.swing.ImageIcon(getClass().getResource("/iconos/ic_editar_blanco.png")), new javax.swing.ImageIcon(getClass().getResource("/iconos/ic_eliminar_blanco.png"))};
             model.addRow(rowData);
         }
 

@@ -82,6 +82,7 @@ public class FrmAdministrarComandas extends javax.swing.JFrame {
             break;
         }
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

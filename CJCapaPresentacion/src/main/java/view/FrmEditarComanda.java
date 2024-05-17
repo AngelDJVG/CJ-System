@@ -5,6 +5,7 @@
 package view;
 
 import control.Control;
+import control.Mediador;
 import entidades.Comanda;
 import entidades.ComandaExpress;
 import entidades.ComandaMesa;
@@ -84,6 +85,7 @@ public class FrmEditarComanda extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         pnlPedidos = new javax.swing.JPanel();
         lblDato = new javax.swing.JLabel();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -261,6 +263,21 @@ public class FrmEditarComanda extends javax.swing.JFrame {
 
         pnlFondo.add(pnlCentralComanda);
 
+        btnRegresar.setBackground(new java.awt.Color(203, 95, 29));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegresar.setText("Regresar");
+        btnRegresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegresar.setMaximumSize(new java.awt.Dimension(170, 60));
+        btnRegresar.setMinimumSize(new java.awt.Dimension(170, 60));
+        btnRegresar.setPreferredSize(new java.awt.Dimension(170, 60));
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnRegresar);
+
         getContentPane().add(pnlFondo);
 
         pack();
@@ -285,6 +302,11 @@ public class FrmEditarComanda extends javax.swing.JFrame {
     private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxTipoActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        Mediador.abrirFrmAdministrarComanda(tipoComanda);
+        dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     public void actualizarPanelFormulario(int tipoComanda) {
        
@@ -389,6 +411,7 @@ public class FrmEditarComanda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
